@@ -36,6 +36,8 @@ export const registerController = async (
       maxAge: 86400000, // the same as token 1d but in milliseconds
     });
 
-    return res.sendStatus(200);
-  } catch (error) {}
+    return res.status(200).send({ message: "User Registerd OK" });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error : Something went wrong" });
+  }
 };

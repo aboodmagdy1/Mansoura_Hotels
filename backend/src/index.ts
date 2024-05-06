@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/api/users", userRoutes);
-app.use("api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(3000, () => {
   console.log(`Server is running on port 3000`);

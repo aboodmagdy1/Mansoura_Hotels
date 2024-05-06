@@ -36,7 +36,7 @@ export const loginController = async (req: Request, res: Response) => {
     });
 
     // here we send the userId because the front have no access to the cookie because(httpOnly)
-    return res.sendStatus(200).json({ userId: user._id });
+    return res.status(200).json({ userId: user._id });
   } catch (error) {
     console.log(error);
     return res
