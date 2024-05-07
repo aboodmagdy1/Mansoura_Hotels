@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiClient from "../api-client";
+import { useAppContext } from "../contexts/AppContext";
 export type RegisterFormData = {
   firstName: string;
   lastName: string;
@@ -9,6 +10,7 @@ export type RegisterFormData = {
   confirmPassword: string;
 };
 const RegisterForm = () => {
+  const { showMessage } = useAppContext();
   const {
     register,
     watch,
@@ -18,15 +20,15 @@ const RegisterForm = () => {
 
   const mutation = useMutation(apiClient.register, {
     onSuccess: () => {
-      console.log("Registered successfully");
+      showMessage({ message: "Registeration successful", type: "SUCCESS" });
     },
     onError: (error: Error) => {
-      console.error(error.message);
+      showMessage({ message: error.message, type: "ERROR" });
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
+  const onSubmit = handleSubmit((formData) => {
+    mutation.mutate(formData);
   });
   return (
     <form className="flex flex-col gap-5" onSubmit={onSubmit}>
