@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import Message from "../components/Message";
+import { useQuery } from "react-query";
+import * as apiClient from "../api-client";
 
 type Message = {
   message: string;
@@ -10,6 +12,7 @@ type Message = {
 type AppContext = {
   // not state but the context here share function with the app components
   showMessage: (message: Message) => void; //مش محدد اي الأكشن بالظبط هحدده ف ال provider
+  isLoggedIn: boolean;
 };
 const AppContext = React.createContext<AppContext | undefined>(undefined);
 
@@ -25,9 +28,14 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode; //the type of children
 }) => {
+  //state of the alert message
   const [alertMessage, setAlertMessage] = useState<Message | undefined>(
     undefined
   );
+  //
+  const { isError } = useQuery("validateToken", apiClient.validateToken, {
+    retry: false,
+  });
 
   return (
     <AppContext.Provider
@@ -36,6 +44,7 @@ export const AppContextProvider = ({
         showMessage: (message) => {
           setAlertMessage(message);
         },
+        isLoggedIn: !isError,
       }}
     >
       {alertMessage && (
