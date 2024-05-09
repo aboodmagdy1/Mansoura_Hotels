@@ -30,7 +30,7 @@ export const registerController = async (
       }
     );
     //6) send token in cookie (so the browser will store it in local cookie storage and send it in every request to the server)
-    res.cookie("token", token, {
+    res.cookie("auth_token", token, {
       httpOnly: true, //cookie can't be accessed via client-side scripts
       secure: process.env.NODE_ENV === "production", // send by https only in production
       maxAge: 86400000, // the same as token 1d but in milliseconds

@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import User from "./../models/user";
 import jwt, { Secret } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -43,4 +43,12 @@ export const loginController = async (req: Request, res: Response) => {
       .status(500)
       .json({ message: "Server Error : Something went wrong" });
   }
+};
+
+//@route api/auth/validate-token
+//@desc validate  a user token
+//@access frontend
+export const verifyTokenController = (req: Request, res: Response) => {
+  //after the validate middleware validate the token this is the response
+  res.status(200).send({ userId: req.userId });
 };
