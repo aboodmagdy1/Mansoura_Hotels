@@ -52,3 +52,14 @@ export const verifyTokenController = (req: Request, res: Response) => {
   //after the validate middleware validate the token this is the response
   res.status(200).send({ userId: req.userId });
 };
+
+//@route api/auth/logout
+//@desc make cookie invalid
+//@access public
+export const logoutController = (req: Request, res: Response) => {
+  res.cookie("auth_token", "", {
+    expires: new Date(0), //cookie that will expire immediately
+  });
+
+  res.send();
+};
