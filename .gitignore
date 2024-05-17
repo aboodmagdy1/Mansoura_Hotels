@@ -1,5 +1,16 @@
+# env files 
 .env
 .env.e2e
-node_modules
-.vscode
-dist
+
+# Node modules
+node_modules/
+
+
+# Build outputs
+build/
+dist/
+
+
+# IDE files
+.vscode/
+.idea/
