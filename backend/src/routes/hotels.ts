@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 
 import { multerUpload } from "../middlewares/multer";
 import { addHotel } from "../controllers/hotelsDashboard";
@@ -12,8 +12,8 @@ const router = express.Router();
 router.post(
   "/",
   verifyToken,
-  creatHotelValidator,
   multerUpload.array("imageFiles", 6),
+  creatHotelValidator,
   addHotel
 );
 
