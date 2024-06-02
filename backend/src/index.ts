@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -35,11 +35,18 @@ app.use(
   })
 );
 
-//define the fontend folder to be served by default
+//define the fontend folder to be served by default(this mean backend end and frontend served from the same server)
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", hotelRoutes);
+
+//non-API routes are redirected to your frontend (common practice for SPA)
+// thsi make react-router-dom handle the request for us
+app.get("*", (req: Request, res: Response, next: NextFunction) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 app.listen(4000, () => {
   console.log(`Server is running on port 4000`);
