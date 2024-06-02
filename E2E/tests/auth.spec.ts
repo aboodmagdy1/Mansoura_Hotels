@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import exp from "constants";
 const UI_URL = "http://localhost:5173/";
 
 // the testing flow
