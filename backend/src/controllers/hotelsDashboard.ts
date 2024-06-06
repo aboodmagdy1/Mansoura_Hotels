@@ -92,10 +92,13 @@ export const updateHotel = async (req: Request, res: Response) => {
 
     //just save the new data
     await hotel.save();
+    res.status(201).json(hotel);
   } catch (err) {
     res.status(500).json({ message: "Error updating hotel" });
   }
 };
+
+// reusable function for uploading images for cloudinary
 async function uploadImages(imageFiles: Express.Multer.File[]) {
   const uploadPromises = imageFiles.map(async (image) => {
     //create a buffer from image
