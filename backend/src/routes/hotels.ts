@@ -1,7 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 
 import { multerUpload } from "../middlewares/multer";
-import { addHotel, getAllHotels } from "../controllers/hotelsDashboard";
+import {
+  addHotel,
+  getAllHotels,
+  getHotel,
+} from "../controllers/hotelsDashboard";
 import { creatHotelValidator } from "../utils/validators/createHotelValidator";
 import verifyToken from "../middlewares/auth";
 
@@ -17,5 +21,6 @@ router.post(
 );
 
 router.get("/", verifyToken, getAllHotels);
+router.get("/:id", verifyToken, getHotel);
 
 export default router;

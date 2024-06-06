@@ -5,7 +5,7 @@ import { hotelType } from "../shared/types";
 
 //@route  /api/my-hotels/
 //@method POST
-//@access private (only logged in user can add hotel)
+//@access private
 
 export const addHotel = async (req: Request, res: Response) => {
   try {
@@ -39,7 +39,7 @@ export const addHotel = async (req: Request, res: Response) => {
 
 //@route  /api/my-hotels/
 //@method Get
-//@access private (only logged in user can add hotel)
+//@access private
 export const getAllHotels = async (req: Request, res: Response) => {
   //1) check if logged in then extract user (by verify token middleware)
   //2) get hotels with this user id and send response
@@ -49,5 +49,19 @@ export const getAllHotels = async (req: Request, res: Response) => {
   } catch (err) {
     console.log("Error: getting all hotels: ", err);
     res.status(500).json({ message: "Error fetching hotels" });
+  }
+};
+
+//@route  /api/my-hotels/:id
+//@method Get
+//@access private
+export const getHotel = async (req: Request, res: Response) => {
+  const id = req.params.id.toString();
+  try {
+    const hotel = await Hotel.findOne({ _id: id, userId: req.userId });
+    res.json(hotel);
+  } catch (err) {
+    console.log("Error: getting hotel: ", err);
+    res.status(500).json({ message: "Error fetching hotel" });
   }
 };
