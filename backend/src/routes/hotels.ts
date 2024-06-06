@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { multerUpload } from "../middlewares/multer";
 import {
   addHotel,
+  updateHotel,
   getAllHotels,
   getHotel,
 } from "../controllers/hotelsDashboard";
@@ -22,5 +23,11 @@ router.post(
 
 router.get("/", verifyToken, getAllHotels);
 router.get("/:id", verifyToken, getHotel);
+router.put(
+  "/:id",
+  verifyToken,
+  multerUpload.array("imageFiles", 6),
+  updateHotel
+);
 
 export default router;

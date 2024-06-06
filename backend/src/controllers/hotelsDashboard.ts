@@ -14,14 +14,7 @@ export const addHotel = async (req: Request, res: Response) => {
     const newHotel: hotelType = req.body;
     //2) upload images to cloudinary
     //single upload for each image
-    const uploadPromises = imageFiles.map(async (image) => {
-      //create a buffer from image
-      const base64 = Buffer.from(image.buffer).toString("base64");
-      let dataURI = "data:" + image.mimetype + ";base64," + base64;
-      const res = await cloudinary.uploader.upload(dataURI);
-      return res.url;
-    });
-    const imagesUrls = await Promise.all(uploadPromises);
+    const imagesUrls = await uploadImages(imageFiles);
     //3) if uploaded successfully, add urls to hotel
     newHotel.imageUrls = imagesUrls;
     newHotel.lastUpdated = new Date();
@@ -38,7 +31,7 @@ export const addHotel = async (req: Request, res: Response) => {
 };
 
 //@route  /api/my-hotels/
-//@method Get
+//@method GET
 //@access private
 export const getAllHotels = async (req: Request, res: Response) => {
   //1) check if logged in then extract user (by verify token middleware)
@@ -53,7 +46,7 @@ export const getAllHotels = async (req: Request, res: Response) => {
 };
 
 //@route  /api/my-hotels/:id
-//@method Get
+//@method GET
 //@access private
 export const getHotel = async (req: Request, res: Response) => {
   const id = req.params.id.toString();
@@ -65,3 +58,52 @@ export const getHotel = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching hotel" });
   }
 };
+
+//@route  /api/my-hotels/:id
+//@method PUT
+//@access private
+export const updateHotel = async (req: Request, res: Response) => {
+  try {
+    const updatedHotel: hotelType = req.body;
+    updatedHotel.lastUpdated = new Date();
+
+    // update hotel body
+    const hotel = await Hotel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.userId,
+      },
+      updateHotel,
+      {
+        new: true,
+      }
+    );
+
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    // update hotel urls of images
+    const imageFiles = req.files as Express.Multer.File[];
+    const updatedImageUrls = await uploadImages(imageFiles);
+
+    // add the new and existing images
+    hotel.imageUrls = [...updatedImageUrls, ...(updatedHotel.imageUrls || [])];
+
+    //just save the new data
+    await hotel.save();
+  } catch (err) {
+    res.status(500).json({ message: "Error updating hotel" });
+  }
+};
+async function uploadImages(imageFiles: Express.Multer.File[]) {
+  const uploadPromises = imageFiles.map(async (image) => {
+    //create a buffer from image
+    const base64 = Buffer.from(image.buffer).toString("base64");
+    let dataURI = "data:" + image.mimetype + ";base64," + base64;
+    const res = await cloudinary.uploader.upload(dataURI);
+    return res.url;
+  });
+  const imagesUrls = await Promise.all(uploadPromises);
+  return imagesUrls;
+}
