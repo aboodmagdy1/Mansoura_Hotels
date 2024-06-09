@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import * as apiClient from "../api-client";
 import ManageHotelForm from "../forms/ManageHotelForms/ManageHotelForm";
