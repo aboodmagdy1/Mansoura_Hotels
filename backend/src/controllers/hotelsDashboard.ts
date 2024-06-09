@@ -73,7 +73,7 @@ export const updateHotel = async (req: Request, res: Response) => {
         _id: req.params.id,
         userId: req.userId,
       },
-      updateHotel,
+      updatedHotel,
       {
         new: true,
       }
@@ -94,6 +94,7 @@ export const updateHotel = async (req: Request, res: Response) => {
     await hotel.save();
     res.status(201).json(hotel);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Error updating hotel" });
   }
 };
