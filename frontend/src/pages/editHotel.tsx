@@ -7,7 +7,6 @@ import { useAppContext } from "../contexts/AppContext";
 
 const EditHotel = () => {
   const { showMessage } = useAppContext();
-  const navigate = useNavigate();
   const { hotelId } = useParams();
   const { data: hotel } = useQuery(
     "fetchMyHotelById",
@@ -20,7 +19,6 @@ const EditHotel = () => {
   const { mutate, isLoading } = useMutation(apiClient.updateMyHotelById, {
     onSuccess: () => {
       showMessage({ message: "Hotel Saved!", type: "SUCCESS" });
-      navigate("/my-hotels");
     },
     onError: () => {
       showMessage({ message: "Error Saving Hotel", type: "ERROR" });
