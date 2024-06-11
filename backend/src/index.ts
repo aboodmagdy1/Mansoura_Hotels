@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
 import myHotelsRoutes from "./routes/my-hotels";
+import hotelsRoutes from "./routes/hotels";
 import path from "path";
 
 // Cloudinary Config
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", myHotelsRoutes);
+app.use("/api/hotels", hotelsRoutes);
 
 //non-API routes are redirected to your frontend (common practice for SPA)
 // thsi make react-router-dom handle the request for us

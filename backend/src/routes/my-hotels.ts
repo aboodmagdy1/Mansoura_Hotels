@@ -6,7 +6,7 @@ import {
   updateHotel,
   getAllHotels,
   getHotel,
-} from "../controllers/hotelsDashboard";
+} from "../controllers/myHotelsDashboard";
 import { creatHotelValidator } from "../utils/validators/createHotelValidator";
 import verifyToken from "../middlewares/auth";
 
