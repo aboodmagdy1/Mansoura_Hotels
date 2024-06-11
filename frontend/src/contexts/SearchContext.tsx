@@ -13,7 +13,7 @@ type SearchContext = {
     checkOut: Date,
     adultCount: number,
     childCount: number,
-    hotelId: string
+    hotelId?: string
   ) => void;
 };
 
@@ -45,7 +45,9 @@ export const SearchContextProvider = ({
     setCheckOut(checkOut);
     setAdultCount(adultCount);
     setChildCount(childCount);
-    setHotelId(hotelId || "");
+    if (hotelId) {
+      setHotelId(hotelId);
+    }
   };
 
   return (
