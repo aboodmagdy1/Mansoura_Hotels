@@ -8,6 +8,7 @@ import StarRatingFilter from "../components/StarRatingFilter";
 import TypesFilter from "../components/hotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
+import SortByList from "../components/SortByList";
 
 const Search = () => {
   const search = useSearchContext();
@@ -16,6 +17,9 @@ const Search = () => {
   const [selectedTypes, setselectedTypes] = useState<string[]>([]);
   const [selectedFacilities, setselectedFacilities] = useState<string[]>([]);
   const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
+  const [selectedSortOption, setSelectedSortOption] = useState<
+    string | undefined
+  >();
   const searchParams = {
     destination: search.destination,
     checkIn: search.checkIn.toISOString(),
@@ -27,6 +31,7 @@ const Search = () => {
     types: selectedTypes,
     facilities: selectedFacilities,
     maxPrice: selectedPrice?.toString(),
+    sortOption: selectedSortOption,
   };
 
   const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +100,10 @@ const Search = () => {
               {hotelData?.pagination.total} Hotels found
               {search.destination ? `in ${search.destination}` : ""}
             </span>
-            {/* TODO: sort options */}
+            <SortByList
+              selectedOption={selectedSortOption}
+              onChange={(option?: string) => setSelectedSortOption(option)}
+            />
           </div>
           {hotelData?.data.map((hotel) => (
             <SearchResultsCard hotel={hotel} />
