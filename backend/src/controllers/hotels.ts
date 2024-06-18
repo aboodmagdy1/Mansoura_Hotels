@@ -9,9 +9,8 @@ export const getHotels = async (req: Request, res: Response) => {
   try {
     //pagination
     const pageNumber = req.query.page ? parseInt(req.query.page.toString()) : 1;
-    const pageSize = 8; // limit
+    const pageSize = 5; // limit
     const skip = (pageNumber - 1) * pageSize; // skip this number to get the next to them
-    const total = await Hotel.countDocuments();
 
     //for filtering purposes
     const query = constructSearchQuery(req.query);
@@ -34,6 +33,7 @@ export const getHotels = async (req: Request, res: Response) => {
       .sort(sortOptions)
       .skip(skip)
       .limit(pageSize);
+    const total = await Hotel.countDocuments(query);
     const response: HotelSearchResponse = {
       data: hotels,
       pagination: {
