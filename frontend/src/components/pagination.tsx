@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export type Props = {
   page: number;
   pages: number;
