@@ -84,6 +84,7 @@ export const fetchMyHotles = async (): Promise<hotelType[]> => {
   return response.json();
 };
 
+// my own hotels
 export const fetchHotelById = async (hotelId: string): Promise<hotelType> => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelId}`, {
     method: "GET",
@@ -161,6 +162,15 @@ export const searchHotels = async (
   );
   if (!response.ok) {
     throw new Error("Error fetching Hotels");
+  }
+  return response.json();
+};
+
+// public hotels
+export const fetchHotel = async (hotelId: string): Promise<hotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
+  if (!response.ok) {
+    throw new Error("Error fetching hotel");
   }
   return response.json();
 };
