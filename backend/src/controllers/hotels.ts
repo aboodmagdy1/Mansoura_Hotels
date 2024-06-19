@@ -1,6 +1,7 @@
 import { Request, response, Response } from "express";
 import Hotel from "../models/hotel";
 import { HotelSearchResponse } from "../shared/types";
+import { validationMiddleware } from "../middlewares/validationMiddleware";
 
 // @desc get all hotels (search)
 // @route GET /api/hotels/search
@@ -46,6 +47,20 @@ export const getHotels = async (req: Request, res: Response) => {
   } catch (error) {
     console.log("error", error);
     res.status(500).json({ message: "Something  went wrong" });
+  }
+};
+
+// @desc get  hotel (details)
+// @route GET /api/hotels/:id
+// @access Public
+export const getHotel = async (req: Request, res: Response) => {
+  const id = req.params.id.toString();
+  try {
+    const hotel = await Hotel.findById(id);
+    res.json(hotel);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error Fetching hotel" });
   }
 };
 
