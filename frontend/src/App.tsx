@@ -22,22 +22,7 @@ const App = () => {
             </Layout>
           }
         />
-        <Route
-          path="/register"
-          element={
-            <Layout>
-              <RegisterForm />
-            </Layout>
-          }
-        />
-        <Route
-          path="/sign-in"
-          element={
-            <Layout>
-              <SignInForm />
-            </Layout>
-          }
-        />
+
         <Route
           path="/search"
           element={
@@ -51,6 +36,22 @@ const App = () => {
           element={
             <Layout>
               <Detail />
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <RegisterForm />
+            </Layout>
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <Layout>
+              <SignInForm />
             </Layout>
           }
         />
