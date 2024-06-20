@@ -65,10 +65,6 @@ const GustInfoForm = ({ hotelId, pricePerNight }: Props) => {
   const maxDate = new Date();
 
   maxDate.setFullYear(maxDate.getFullYear() + 1);
-
-  const adultCount = watch("adultCount");
-  const childCount = watch("childCount");
-
   return (
     <div className="flex flex-col p-4 gap-4 bg-blue-200">
       <h3 className="text-md font-bold">${pricePerNight}</h3>
