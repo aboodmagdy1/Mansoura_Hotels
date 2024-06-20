@@ -28,6 +28,13 @@ const SearchBar = () => {
     );
     navigate("/search");
   };
+  const handleClear = () => {
+    setDestination("");
+    setCheckIn(new Date());
+    setCheckOut(new Date());
+    setAdultsCount(1);
+    setChildCount(0);
+  };
 
   const minDate = new Date();
   const maxDate = new Date();
@@ -118,6 +125,7 @@ const SearchBar = () => {
         <button
           type="submit"
           className="w-1/3 bg-red-600 text-white text-xl font-bold h-full p-2 hover:bg-red-500 "
+          onClick={handleClear}
         >
           Clear
         </button>
