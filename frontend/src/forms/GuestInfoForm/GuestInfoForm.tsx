@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { useAppContext } from "../../contexts/AppContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
   hotelId: string;
@@ -36,13 +36,25 @@ const GustInfoForm = ({ hotelId, pricePerNight }: Props) => {
     },
   });
 
-  const handleSignInClicked = (data: GuestInfoFromData) => {
-    search.saveSearchValues("", checkIn, checkOut, adultCount, childCount);
+  const onSignInClick = (data: GuestInfoFromData) => {
+    search.saveSearchValues(
+      "",
+      data.checkIn,
+      data.checkOut,
+      data.adultCount,
+      data.childCount
+    );
     navigate("/sign-in", { state: { from: location } });
   };
 
   const onSubmit = (data: GuestInfoFromData) => {
-    search.saveSearchValues("", checkIn, checkOut, adultCount, childCount);
+    search.saveSearchValues(
+      "",
+      data.checkIn,
+      data.checkOut,
+      data.adultCount,
+      data.childCount
+    );
     navigate(`/hotel/${hotelId}/booking`);
   };
 
@@ -62,9 +74,7 @@ const GustInfoForm = ({ hotelId, pricePerNight }: Props) => {
       <h3 className="text-md font-bold">${pricePerNight}</h3>
       <form
         onSubmit={
-          isLoggedIn
-            ? handleSubmit(onSubmit)
-            : handleSubmit(handleSignInClicked)
+          isLoggedIn ? handleSubmit(onSubmit) : handleSubmit(onSignInClick)
         }
       >
         <div className="grid grid-cols-1 gap-4 items-center">
