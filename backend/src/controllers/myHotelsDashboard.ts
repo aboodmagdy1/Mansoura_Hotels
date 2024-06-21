@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import Hotel from "../models/hotel";
 import { hotelType } from "../shared/types";
+import { Multer } from "multer";
 
 //@route  /api/my-hotels/
 //@method POST
@@ -10,13 +11,23 @@ import { hotelType } from "../shared/types";
 export const addHotel = async (req: Request, res: Response) => {
   try {
     // 1) get the data from form
-    const imageFiles = req.files as Express.Multer.File[];
+    // const mediaFiles = req.files as {[fieldname: string]: Express.Multer.File[];}; because we use multerUpload.fields
+    const mediaFiles = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    const imageFiles = mediaFiles["imageFiles"];
+    const videoFiles = mediaFiles["videoFiles"];
+
     const newHotel: hotelType = req.body;
     //2) upload images to cloudinary
-    //single upload for each image
-    const imagesUrls = await uploadImages(imageFiles);
-    //3) if uploaded successfully, add urls to hotel
-    newHotel.imageUrls = imagesUrls;
+    //single upload for each image and video
+
+    const imageUrls = await uploadMediaFiles(imageFiles);
+    const videoUrls = await uploadMediaFiles(videoFiles);
+
+    // //3) if uploaded successfully, add urls to hotel
+    newHotel.imageUrls = imageUrls.map((image) => image.url);
+    newHotel.videoUrls = videoUrls.map((video) => video.url);
     newHotel.lastUpdated = new Date();
     newHotel.userId = req.userId;
 
@@ -110,4 +121,34 @@ async function uploadImages(imageFiles: Express.Multer.File[]) {
   });
   const imagesUrls = await Promise.all(uploadPromises);
   return imagesUrls;
+}
+
+async function uploadMediaFiles(
+  files: Express.Multer.File[]
+): Promise<{ type: string; url: string }[]> {
+  const uploadPromises = files.map(async (file) => {
+    //Image Uploading
+    if (file.mimetype.startsWith("image/")) {
+      const base64 = Buffer.from(file.buffer).toString("base64");
+      const dataURI = "data:" + file.mimetype + ";base64," + base64;
+      const result = await cloudinary.uploader.upload(dataURI, {
+        folder: "hotels/images",
+      });
+      return { type: "image", url: result.url };
+    } else if (file.mimetype.startsWith("video/")) {
+      // Video Uploading
+      const base64 = Buffer.from(file.buffer).toString("base64");
+      const dataURI = "data:" + file.mimetype + ";base64," + base64;
+      const result = await cloudinary.uploader.upload(dataURI, {
+        resource_type: "video",
+        folder: `hotels/videos`,
+      });
+      return { type: "video", url: result.url };
+    } else {
+      throw new Error("unSupported file type ");
+    }
+  });
+
+  const uploadResults = await Promise.all(uploadPromises);
+  return uploadResults;
 }

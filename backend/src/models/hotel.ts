@@ -56,6 +56,7 @@ const hotelSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  videoUrls: [{ type: String }],
   lastUpdated: {
     type: Date,
     required: true,

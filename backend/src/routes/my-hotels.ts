@@ -18,7 +18,10 @@ const router = express.Router();
 router.post(
   "/",
   verifyToken,
-  multerUpload.array("imageFiles", 6),
+  multerUpload.fields([
+    { name: "imageFiles", maxCount: 6 },
+    { name: "videoFiles", maxCount: 2 },
+  ]),
   creatHotelValidator,
   addHotel
 );
