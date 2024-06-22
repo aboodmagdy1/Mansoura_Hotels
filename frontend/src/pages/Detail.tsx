@@ -24,6 +24,17 @@ const Detail = () => {
         </span>
         <h1 className="font-bold text-3xl">{hotel.name}</h1>
       </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {hotel.videoUrls &&
+          hotel.videoUrls.map((url, index) => (
+            <video
+              key={index}
+              src={url}
+              controls
+              className="w-full h-[300px] rounded-md"
+            ></video>
+          ))}
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {hotel.imageUrls.map((url) => (
           <div className="h-[300px]">
