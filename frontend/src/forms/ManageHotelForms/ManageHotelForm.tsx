@@ -6,6 +6,7 @@ import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { useEffect } from "react";
 import { hotelType } from "../../../../backend/src/shared/types";
+import VideoSection from "./VideoSection";
 
 export type HotelFormData = {
   name: string;
@@ -18,6 +19,8 @@ export type HotelFormData = {
   facilities: string[];
   imageFiles: FileList;
   imageUrls: string[];
+  videoFiles: FileList;
+  videoUrls: string[];
   adultCount: number;
   childCount: number;
 };
@@ -60,11 +63,20 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
         formData.append(`imageUrls[${index}]`, imgUrl);
       });
     }
+    if (data.videoUrls) {
+      data.videoUrls.forEach((vidUrl, index) => {
+        formData.append(`videoUrls[${index}]`, vidUrl);
+      });
+    }
 
     // for creating new hotel
     Array.from(data.imageFiles).forEach((imageFile) => {
       formData.append(`imageFiles`, imageFile);
     });
+    Array.from(data.videoFiles).forEach((videoFile) => {
+      formData.append(`videoFiles`, videoFile);
+    });
+
     onSave(formData);
   });
   return (
@@ -75,6 +87,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
         <FacilitiesSection />
         <GuestsSection />
         <ImagesSection />
+        <VideoSection />
         <span className="flex justify-end ">
           <button
             type="submit"
