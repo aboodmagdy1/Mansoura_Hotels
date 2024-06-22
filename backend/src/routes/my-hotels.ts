@@ -31,7 +31,10 @@ router.get("/:id", verifyToken, getHotel);
 router.put(
   "/:id",
   verifyToken,
-  multerUpload.array("imageFiles", 6),
+  multerUpload.fields([
+    { name: "imageFiles", maxCount: 6 },
+    { name: "videoFiles", maxCount: 2 },
+  ]),
   updateHotel
 );
 

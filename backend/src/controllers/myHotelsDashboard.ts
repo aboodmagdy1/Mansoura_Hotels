@@ -15,8 +15,10 @@ export const addHotel = async (req: Request, res: Response) => {
     const mediaFiles = req.files as {
       [fieldname: string]: Express.Multer.File[];
     };
-    const imageFiles = mediaFiles["imageFiles"];
-    const videoFiles = mediaFiles["videoFiles"];
+    const imageFiles = mediaFiles["imageFiles"] || [];
+    const videoFiles = mediaFiles["videoFiles"] || [];
+
+    console.log(imageFiles, videoFiles);
 
     const newHotel: hotelType = req.body;
     //2) upload images to cloudinary
@@ -95,11 +97,22 @@ export const updateHotel = async (req: Request, res: Response) => {
     }
 
     // update hotel urls of images
-    const imageFiles = req.files as Express.Multer.File[];
-    const updatedImageUrls = await uploadImages(imageFiles);
+    const mediaFiles = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    const imageFiles = mediaFiles["imageFiles"] || [];
+    const videoFiles = mediaFiles["videoFiles"] || [];
+
+    const updatedImageUrls = (await uploadMediaFiles(imageFiles)).map(
+      (img) => img.url
+    );
+    const updatedVideoUrls = (await uploadMediaFiles(videoFiles)).map(
+      (video) => video.url
+    );
 
     // add the new and existing images
     hotel.imageUrls = [...updatedImageUrls, ...(updatedHotel.imageUrls || [])];
+    hotel.videoUrls = [...updatedVideoUrls, ...(updatedHotel.videoUrls || [])];
 
     //just save the new data
     await hotel.save();
@@ -109,19 +122,6 @@ export const updateHotel = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error updating hotel" });
   }
 };
-
-// reusable function for uploading images for cloudinary
-async function uploadImages(imageFiles: Express.Multer.File[]) {
-  const uploadPromises = imageFiles.map(async (image) => {
-    //create a buffer from image
-    const base64 = Buffer.from(image.buffer).toString("base64");
-    let dataURI = "data:" + image.mimetype + ";base64," + base64;
-    const res = await cloudinary.uploader.upload(dataURI);
-    return res.url;
-  });
-  const imagesUrls = await Promise.all(uploadPromises);
-  return imagesUrls;
-}
 
 async function uploadMediaFiles(
   files: Express.Multer.File[]
@@ -142,6 +142,13 @@ async function uploadMediaFiles(
       const result = await cloudinary.uploader.upload(dataURI, {
         resource_type: "video",
         folder: `hotels/videos`,
+        transformation: {
+          width: 640,
+          height: 640,
+          quality: "auto:best",
+          fetch_format: "auto",
+          flags: "lossy",
+        },
       });
       return { type: "video", url: result.url };
     } else {
