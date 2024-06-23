@@ -41,3 +41,20 @@ export const registerController = async (
     res.status(500).json({ message: "Server Error : Something went wrong" });
   }
 };
+
+//@route api/users/me
+//@desc logged user
+//@access  utility for frontend
+export const currentLoggedUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      res.status(400).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error : Something went wrong" });
+  }
+};
