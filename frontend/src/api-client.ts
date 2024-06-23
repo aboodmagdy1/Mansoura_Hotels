@@ -1,9 +1,14 @@
 import { RegisterFormData } from "./pages/register";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelSearchResponse, hotelType } from "../../backend/src/shared/types";
+import {
+  HotelSearchResponse,
+  hotelType,
+  userType,
+} from "../../backend/src/shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
+// ----------------------------- Authntication & Authrization--------------------------
 export const register = async (formData: RegisterFormData) => {
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
     method: "POST",
@@ -36,6 +41,18 @@ export const signIn = async (formData: SignInFormData) => {
 
   return responseBody;
 };
+
+export const fetchCurrentUser = async (): Promise<userType> => {
+  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching current user");
+  }
+
+  return response.json();
+};
 export const signOut = async () => {
   const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
     method: "POST", //because we crete fake token
@@ -57,6 +74,9 @@ export const validateToken = async () => {
 
   return response.json();
 };
+
+//-------------------------------Admin dashboard--------------------------------------
+
 export const addMyHotel = async (hotelFormData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
     method: "POST",
@@ -115,6 +135,8 @@ export const updateMyHotelById = async (
   return response.json();
 };
 
+// ----------------------------Search ----------------------------------------------
+
 // all are string besause the data in quey is key:"string"
 export type SearchParams = {
   destination?: string;
@@ -166,7 +188,7 @@ export const searchHotels = async (
   return response.json();
 };
 
-// public hotels
+// ----------------------------Public Hotels----------------------------------------
 export const fetchHotel = async (hotelId: string): Promise<hotelType> => {
   const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
   if (!response.ok) {
