@@ -14,6 +14,7 @@ export type hotelType = {
   imageUrls: string[];
   videoUrls: string[];
   lastUpdated: Date;
+  bookings: BoookingType[];
 };
 
 export type HotelSearchResponse = {
@@ -36,5 +37,19 @@ export type userType = {
 export type PaymentIntentResponse = {
   paymentIntentId: string;
   clientSecret: string;
+  totalCost: number;
+};
+
+//order details(booking details)
+export type BoookingType = {
+  _id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  adultCount: number;
+  childCount: number;
+  checkIn: Date;
+  checkOut: Date;
   totalCost: number;
 };

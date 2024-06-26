@@ -3,6 +3,7 @@ import {
   getHotels,
   getHotel,
   createPaymentIntent,
+  createBooking,
 } from "../controllers/hotels";
 import { param } from "express-validator";
 import { validationMiddleware } from "../middlewares/validationMiddleware";
@@ -23,4 +24,5 @@ router.post(
   verifyToken,
   createPaymentIntent
 );
+router.post("/:hotelId/bookings", verifyToken, createBooking);
 export default router;
