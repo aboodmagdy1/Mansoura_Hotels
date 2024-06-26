@@ -1,7 +1,12 @@
 import express from "express";
-import { getHotels, getHotel } from "../controllers/hotels";
+import {
+  getHotels,
+  getHotel,
+  createPaymentIntent,
+} from "../controllers/hotels";
 import { param } from "express-validator";
 import { validationMiddleware } from "../middlewares/validationMiddleware";
+import verifyToken from "../middlewares/auth";
 
 const router = express.Router();
 
@@ -13,4 +18,9 @@ router.get(
   getHotel
 );
 
+router.post(
+  "/:hotelId/bookings/payment-intent",
+  verifyToken,
+  createPaymentIntent
+);
 export default router;
