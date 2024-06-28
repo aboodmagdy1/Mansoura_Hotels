@@ -85,7 +85,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
 
   //2) create payment intent
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: totalCost,
+    amount: totalCost * 100, // in cents
     currency: "usd",
     // for check if the payment has successfully or fail
     metadata: {
@@ -107,6 +107,9 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
   res.send(response);
 };
 
+//@desc create booking after payment successful
+//@route Post api/hotels/:hotelId/bookings/
+//@access protected
 export const createBooking = async (req: Request, res: Response) => {
   try {
     //1) get the paymentIntent (corrsponding to the booking request)
