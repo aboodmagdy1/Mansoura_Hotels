@@ -2,6 +2,10 @@ import React, { useContext, useState } from "react";
 import Message from "../components/Message";
 import { useQuery } from "react-query";
 import * as apiClient from "../api-client";
+// we make this here because we want to load the stripe once the app is load
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+
+const STRIPE_PUP_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY || "";
 
 type Message = {
   message: string;
@@ -13,9 +17,10 @@ type AppContext = {
   // not state but the context here share function with the app components
   showMessage: (message: Message) => void; //مش محدد اي الأكشن بالظبط هحدده ف ال provider
   isLoggedIn: boolean;
+  stripePromise: Promise<Stripe | null>;
 };
 const AppContext = React.createContext<AppContext | undefined>(undefined);
-
+const stripePromise = loadStripe(STRIPE_PUP_KEY);
 //custome hook to return the context
 export const useAppContext = () => {
   const context = useContext(AppContext);
@@ -45,6 +50,7 @@ export const AppContextProvider = ({
           setAlertMessage(message);
         },
         isLoggedIn: !isError,
+        stripePromise,
       }}
     >
       {alertMessage && (
