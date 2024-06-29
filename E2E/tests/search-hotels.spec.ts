@@ -35,3 +35,34 @@ test("Should show hotel detail", async ({ page }) => {
   await expect(page).toHaveURL(/detail/);
   await expect(page.getByRole("button", { name: "Book Now" })).toBeVisible();
 });
+
+test("Should book hotel", async ({ page }) => {
+  await page.goto(UI_URL);
+
+  await page.getByPlaceholder("Where are you going").fill("Test City");
+  // fill date to make sure there will be a n of nights to book
+  const newDate = new Date();
+  newDate.setDate(newDate.getDate() + 3);
+  const formatedDate = newDate.toISOString().split("T")[0];
+  await page.getByPlaceholder("Check-out Date").fill(formatedDate);
+
+  //search
+  await page.getByRole("button", { name: "Search" }).click();
+
+  await page.getByText("Test Hotel Name Updated").click();
+  await page.getByRole("button", { name: "Book Now" }).click();
+
+  await expect(page.getByText("Total Cost : $300.00")).toBeVisible(); // will not change 3 nights and the price is constatnt
+
+  const stripeFrame = page.frameLocator("iframe").first();
+  await stripeFrame
+    .locator('[placeholder="Card number"]')
+    .fill("4242424242424242");
+
+  await stripeFrame.locator('[placeholder="MM / YY"]').fill("12/28");
+  await stripeFrame.locator('[placeholder="CVC"]').fill("888");
+  await stripeFrame.locator('[placeholder="ZIP"]').fill("22222");
+
+  await page.getByRole("button", { name: "Confirm Booking" }).click();
+  await expect(page.getByText("Booking Saved!")).toBeVisible();
+});
