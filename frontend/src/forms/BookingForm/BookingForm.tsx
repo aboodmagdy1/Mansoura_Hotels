@@ -5,7 +5,7 @@ import {
 } from "../../../../backend/src/shared/types";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { StripeCardElement } from "@stripe/stripe-js";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import * as apiClient from "../../api-client";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { useParams } from "react-router-dom";

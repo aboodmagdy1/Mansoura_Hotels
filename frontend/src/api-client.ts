@@ -7,7 +7,6 @@ import {
   userType,
 } from "../../backend/src/shared/types";
 import { bookingFormData } from "./forms/BookingForm/BookingForm";
-import { json, useParams } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
