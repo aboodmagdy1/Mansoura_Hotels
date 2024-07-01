@@ -8,6 +8,7 @@ import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
 import myHotelsRoutes from "./routes/my-hotels";
 import hotelsRoutes from "./routes/hotels";
+import myBookingsRoutes from "./routes/my-bookings";
 import path from "path";
 
 // Cloudinary Config
@@ -43,6 +44,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", myHotelsRoutes);
 app.use("/api/hotels", hotelsRoutes);
+app.use("/api/my-bookings", hotelsRoutes);
 
 //non-API routes are redirected to your frontend (common practice for SPA)
 // thsi make react-router-dom handle the request for us

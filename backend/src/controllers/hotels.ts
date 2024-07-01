@@ -156,7 +156,6 @@ export const createBooking = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
-
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};
 
