@@ -44,7 +44,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", myHotelsRoutes);
 app.use("/api/hotels", hotelsRoutes);
-app.use("/api/my-bookings", hotelsRoutes);
+app.use("/api/my-bookings", myBookingsRoutes);
 
 //non-API routes are redirected to your frontend (common practice for SPA)
 // thsi make react-router-dom handle the request for us
