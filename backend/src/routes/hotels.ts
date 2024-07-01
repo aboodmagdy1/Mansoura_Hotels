@@ -4,6 +4,7 @@ import {
   getHotel,
   createPaymentIntent,
   createBooking,
+  getAllHotels,
 } from "../controllers/hotels";
 import { param } from "express-validator";
 import { validationMiddleware } from "../middlewares/validationMiddleware";
@@ -12,6 +13,7 @@ import verifyToken from "../middlewares/auth";
 const router = express.Router();
 
 router.get("/search", getHotels);
+router.get("/", getAllHotels);
 router.get(
   "/:id",
   [param("id").notEmpty().withMessage("Hotel Id is Required")],

@@ -51,6 +51,19 @@ export const getHotels = async (req: Request, res: Response) => {
   }
 };
 
+// @desc get  hotels for home page
+// @route GET /api/hotels/
+// @access Public
+export const getAllHotels = async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find({}).sort("-lastUpdated");
+    res.json(hotels);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error Fetching hotels" });
+  }
+};
+
 // @desc get  hotel (details)
 // @route GET /api/hotels/:id
 // @access Public
