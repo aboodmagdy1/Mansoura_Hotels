@@ -41,7 +41,10 @@ const MyHotels = () => {
           return (
             <div className="flex flex-col justify-between border border-slate-500 rounded-lg p-8 gap-5 ">
               <h2 className="text-2xl font-bold">{hotel.name}</h2>
-              <div className="whitespace-pre-line"> {hotel.description}</div>
+
+              <div className="whitespace-pre-line">
+                {hotel.description.slice(0, 400)} ......
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
                 <div className="border border-slate-300 rounded-sm p-3 flex items-center">
                   <BsMap className="mr-1" />

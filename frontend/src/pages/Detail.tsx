@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { AiFillStar } from "react-icons/ai";
 import GuestInfoForm from "../forms/GuestInfoForm/GuestInfoForm";
+import { useState } from "react";
 const Detail = () => {
   const { hotelId } = useParams();
   const { data: hotel } = useQuery(
@@ -11,6 +12,7 @@ const Detail = () => {
     { enabled: !!hotelId }
   );
 
+  const [expandDescription, setExpandDescription] = useState(false);
   if (!hotel) {
     return <> </>;
   }
@@ -53,8 +55,18 @@ const Detail = () => {
           </div>
         ))}
       </div>
-      <div className="grid  grid-cols-1 lg:grid-cols-[2fr_1fr] ">
-        <div className="whitespace-pre-line">{hotel.description}</div>
+      <div className="grid  grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+        <div className="whitespace-pre-line">
+          {expandDescription
+            ? hotel.description
+            : hotel.description.slice(0, 1000)}
+
+          <button onClick={() => setExpandDescription(!expandDescription)}>
+            <span className="text-xl font-semibold text-blue-500">
+              {expandDescription ? "show less" : "show more"}
+            </span>
+          </button>
+        </div>
         <div className="h-fit">
           <GuestInfoForm
             hotelId={hotelId as string}
