@@ -36,7 +36,6 @@ const bookingSchema = new mongoose.Schema<BoookingType>({
   },
   totalCost: {
     type: Number,
-    required: true,
   },
 });
 
