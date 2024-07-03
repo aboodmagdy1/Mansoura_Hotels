@@ -254,3 +254,43 @@ export const fetchMyBookings = async (): Promise<hotelType[]> => {
   }
   return response.json();
 };
+
+// ----------------------------Admin DashBoard----------------------------------------
+// get all hotels to show in the admin dashboard
+export const fetchAllHotels_Admin = async (): Promise<hotelType[]> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/hotels`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching hotels For admin ");
+  }
+  return response.json();
+};
+// get specific hotel to review
+export const fetchHotel_Admin = async (hotelId: string): Promise<hotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/hotels/:${hotelId}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching hotel for admin");
+  }
+  return response.json();
+};
+// approve hotel
+export const approveHotel = async (hotelId: string, approved: boolean) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/hotels/${hotelId}`, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ approved }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error approving hotel");
+  }
+  return response.json();
+};

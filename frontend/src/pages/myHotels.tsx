@@ -41,7 +41,7 @@ const MyHotels = () => {
           Add Hotel
         </Link>
       </span>
-      {hotelData?.length === 0 ? (
+      {!hotelData || hotelData?.length === 0 ? (
         <div className="flex justify-center">
           <span className="text-2xl font-bold text-red-500">
             You Have No Approved Hotels
