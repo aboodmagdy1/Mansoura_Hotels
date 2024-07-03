@@ -15,6 +15,7 @@ export type hotelType = {
   videoUrls: string[];
   lastUpdated: Date;
   bookings: BoookingType[];
+  approved: boolean;
 };
 
 export type HotelSearchResponse = {
@@ -32,6 +33,7 @@ export type userType = {
   password: string;
   firstName: string;
   lastName: string;
+  role: string;
 };
 
 export type PaymentIntentResponse = {

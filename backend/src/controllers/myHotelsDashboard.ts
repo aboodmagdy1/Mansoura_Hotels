@@ -36,7 +36,7 @@ export const addHotel = async (req: Request, res: Response) => {
     //4) save documen to db
     const hotel = await Hotel.create(newHotel);
     //5) send response
-    res.status(201).send(hotel);
+    return res.status(201);
   } catch (err) {
     console.log("Error:creating hotel : ", err);
     res.status(500).json({ message: "Something went wrong" });
@@ -50,7 +50,7 @@ export const getAllHotels = async (req: Request, res: Response) => {
   //1) check if logged in then extract user (by verify token middleware)
   //2) get hotels with this user id and send response
   try {
-    const hotels = await Hotel.find({ userId: req.userId });
+    const hotels = await Hotel.find({ userId: req.userId, approved: true });
     res.json(hotels);
   } catch (err) {
     console.log("Error: getting all hotels: ", err);

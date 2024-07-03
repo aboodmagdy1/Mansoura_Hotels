@@ -100,6 +100,10 @@ const hotelSchema = new mongoose.Schema<hotelType>({
     required: true,
   },
   bookings: [bookingSchema],
+  approved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Hotel = mongoose.model<hotelType>("Hotel", hotelSchema);

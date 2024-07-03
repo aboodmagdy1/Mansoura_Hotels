@@ -58,3 +58,28 @@ export const currentLoggedUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server Error : Something went wrong" });
   }
 };
+
+export const allowedTo = (...roles: string[]) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // 1)find user
+      const user = await User.findById(req.userId);
+      // 2) if user exist check it's role  else user not found
+      if (!user) {
+        return res.status(400).json({ message: "User not found" });
+      }
+      // 3) check if user role is allowed to do the action
+      if (!roles.includes(user.role)) {
+        return res.status(403).json({
+          message: "Forbidden : you are not allowed to do this action ",
+        });
+      }
+
+      // 4) if user allowed to do the action
+      next();
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Server Error : Something went wrong" });
+    }
+  };
+};

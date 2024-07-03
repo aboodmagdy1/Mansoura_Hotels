@@ -16,7 +16,6 @@ export const getHotels = async (req: Request, res: Response) => {
 
     //for filtering purposes
     const query = constructSearchQuery(req.query);
-
     //sorting
     let sortOptions = {};
     switch (req.query.sortOption) {
@@ -56,7 +55,7 @@ export const getHotels = async (req: Request, res: Response) => {
 // @access Public
 export const getAllHotels = async (req: Request, res: Response) => {
   try {
-    const hotels = await Hotel.find({}).sort("-lastUpdated");
+    const hotels = await Hotel.find({ approved: true }).sort("-lastUpdated");
     res.json(hotels);
   } catch (error) {
     console.log("error", error);
@@ -172,6 +171,7 @@ export const createBooking = async (req: Request, res: Response) => {
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};
 
+  constructedQuery.approved = true;
   if (queryParams.destination) {
     constructedQuery.$or = [
       { city: new RegExp(queryParams.destination, "i") },
