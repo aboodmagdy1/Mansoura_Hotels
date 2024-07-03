@@ -13,7 +13,7 @@ const LatestDestinationCard = ({ hotel }: Props) => {
       className="relative cursor-pointer overflow-hidden rounded-md"
     >
       <div className="absolute bottom-0 p-4 bg-black bg-opacity-50 w-full rounded-md">
-        <span className="text-white font-bold tracking-tight text-3xl">
+        <span className="text-white font-bold tracking-tight text-2xl">
           {hotel.name}
         </span>
         <span className="flex">
