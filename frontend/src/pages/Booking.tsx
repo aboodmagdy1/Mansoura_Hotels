@@ -7,16 +7,17 @@ import { useEffect, useState } from "react";
 import BookingDetailsSummary from "../components/BookingDetailsSummary.tsx";
 import { Elements } from "@stripe/react-stripe-js";
 import { useAppContext } from "../contexts/AppContext.tsx";
+import Loader from "../components/Loader.tsx";
 
 const Booking = () => {
   const { stripePromise } = useAppContext();
   const search = useSearchContext();
-  const { data: currentUser } = useQuery(
+  const { data: currentUser, isLoading: isUserLoading } = useQuery(
     "fetchCurrentUser",
     apiClient.fetchCurrentUser
   );
   const { hotelId } = useParams();
-  const { data: hotel } = useQuery(
+  const { data: hotel, isLoading: isLoadingHotel } = useQuery(
     "fetchHoteById",
     () => apiClient.fetchHotel(hotelId as string),
     {
@@ -33,7 +34,7 @@ const Booking = () => {
     }
   }, [search.checkIn, search.checkOut]);
 
-  const { data: paymentIntentData } = useQuery(
+  const { data: paymentIntentData, isLoading: isPaymentLoading } = useQuery(
     "createPaymentIntent",
     () =>
       apiClient.createPaymentIntent(
@@ -45,7 +46,17 @@ const Booking = () => {
     }
   );
   if (!hotel) {
-    return <></>;
+    return (
+      <>
+        {isLoadingHotel ? (
+          <div className="flex justify-center">
+            <Loader />
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </>
+    );
   }
   return (
     <div className="grid md:grid-cols-[1fr_2fr]">
@@ -57,7 +68,7 @@ const Booking = () => {
         numberOfNights={numberOfNights}
         hotel={hotel}
       />
-      {currentUser && paymentIntentData && (
+      {currentUser && paymentIntentData ? (
         <Elements
           stripe={stripePromise}
           options={{
@@ -69,6 +80,20 @@ const Booking = () => {
             currentUser={currentUser}
           />
         </Elements>
+      ) : (
+        <>
+          {isUserLoading || isPaymentLoading ? (
+            <div className="flex justify-center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="flex justify-center ">
+              <span className="text-xl text-blue-600">
+                You Must Chose Checkout Date To Book at least 1 night
+              </span>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

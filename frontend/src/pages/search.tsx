@@ -9,6 +9,7 @@ import TypesFilter from "../components/hotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
 import SortByList from "../components/SortByList";
+import Loader from "../components/Loader";
 
 const Search = () => {
   const search = useSearchContext();
@@ -64,9 +65,12 @@ const Search = () => {
     );
   };
 
-  const { data: hotelData } = useQuery(["searchHotels", searchParams], () => {
-    return apiClient.searchHotels(searchParams);
-  });
+  const { data: hotelData, isLoading } = useQuery(
+    ["searchHotels", searchParams],
+    () => {
+      return apiClient.searchHotels(searchParams);
+    }
+  );
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5 ">
@@ -94,32 +98,38 @@ const Search = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 ">
-          <div className="flex justify-between items-center ">
-            <span className="text-xl font-bold ">
-              {hotelData?.pagination.total} Hotels found
-              {search.destination ? `in ${search.destination}` : ""}
-            </span>
-            <SortByList
-              selectedOption={selectedSortOption}
-              onChange={(option?: string) => setSelectedSortOption(option)}
-            />
+        {isLoading ? (
+          <div className="flex justify-center">
+            <Loader />
           </div>
-          {hotelData?.data.map((hotel) => (
-            <SearchResultsCard hotel={hotel} />
-          ))}
-          {hotelData?.pagination.total ? (
-            <div>
-              <Pagination
-                page={hotelData?.pagination.page || 1}
-                pages={hotelData?.pagination.pages || 1}
-                onPageChange={(page) => setPage(page)}
+        ) : (
+          <div className="flex flex-col gap-5 ">
+            <div className="flex justify-between items-center ">
+              <span className="text-xl font-bold ">
+                {hotelData?.pagination.total} Hotels found
+                {search.destination ? `in  ${search.destination}` : ""}
+              </span>
+              <SortByList
+                selectedOption={selectedSortOption}
+                onChange={(option?: string) => setSelectedSortOption(option)}
               />
             </div>
-          ) : (
-            ""
-          )}
-        </div>
+            {hotelData?.data.map((hotel) => (
+              <SearchResultsCard hotel={hotel} />
+            ))}
+            {hotelData?.pagination.total ? (
+              <div>
+                <Pagination
+                  page={hotelData?.pagination.page || 1}
+                  pages={hotelData?.pagination.pages || 1}
+                  onPageChange={(page) => setPage(page)}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
       </div>
     </>
   );

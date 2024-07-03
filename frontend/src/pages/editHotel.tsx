@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import ManageHotelForm from "../forms/ManageHotelForms/ManageHotelForm";
 import { useAppContext } from "../contexts/AppContext";
+import Loader from "../components/Loader";
 
 const EditHotel = () => {
   const { showMessage } = useAppContext();
   const { hotelId } = useParams();
-  const { data: hotel } = useQuery(
+  const { data: hotel, isLoading: isLoadingHotel } = useQuery(
     "fetchMyHotelById",
     () => apiClient.fetchHotelById(hotelId || ""),
     {
@@ -29,7 +30,19 @@ const EditHotel = () => {
     mutate(hotelFormData);
   };
   return (
-    <ManageHotelForm hotel={hotel} onSave={handleSave} isLoading={isLoading} />
+    <>
+      {isLoadingHotel ? (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <ManageHotelForm
+          hotel={hotel}
+          onSave={handleSave}
+          isLoading={isLoading}
+        />
+      )}
+    </>
   );
 };
 

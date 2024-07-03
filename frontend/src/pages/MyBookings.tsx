@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../api-client";
+import Loader from "../components/Loader";
 const MyBookings = () => {
-  const { data: hotels } = useQuery(
+  const { data: hotels, isLoading } = useQuery(
     "fetchMyBookings",
     apiClient.fetchMyBookings
   );
@@ -9,7 +10,15 @@ const MyBookings = () => {
   console.log(hotels);
 
   if (!hotels || hotels.length === 0) {
-    return <span>No Bookings Found</span>;
+    if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      );
+    } else {
+      return <span>No Bookings Found</span>;
+    }
   }
   return (
     <div className="space-y-5 ">
