@@ -41,10 +41,10 @@ const MyHotels = () => {
           Add Hotel
         </Link>
       </span>
-      {!hotelData ? (
+      {hotelData?.length === 0 ? (
         <div className="flex justify-center">
           <span className="text-2xl font-bold text-red-500">
-            You Have No Hotels
+            You Have No Approved Hotels
           </span>
         </div>
       ) : (
