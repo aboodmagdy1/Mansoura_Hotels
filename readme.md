@@ -11,13 +11,14 @@ Booking.com Clone for Mansoura Hotels Build with Mern Stack
 - [Features](#featuers)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Credits](#credits)
 - [Technologies](#Tech-Tools)
 
 ## Featuers
 
 - Authintication And Authorization with JWT
-- Hotels Dashboard
+- Hotels Dashboard for hotel owners
+- Admin Dashboard for website admin
+- revision system (review owner hotels before make it available for users)
 - Image , Video hosting with Cloudinary
 - Searching , Pagination , Filtering
 - Booking and Pay with Stripe
@@ -65,7 +66,7 @@ npm i && npx tsx
 npm run start
 ```
 
-## Tech Tools
+## Technologies
 
 - Backend :
   - [NodeJS](https://nodejs.org/en/)
@@ -82,3 +83,4 @@ npm run start
   - [ReactJs](https://react.dev/)
   - [React Router](https://reactrouter.com/en/main)
   - [React Forms](https://react-hook-form.com/)
+  - [Material Ui](https://mui.com/material-ui/)
