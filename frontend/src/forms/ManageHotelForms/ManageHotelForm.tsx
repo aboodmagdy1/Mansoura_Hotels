@@ -24,6 +24,7 @@ export type HotelFormData = {
   adultCount: number;
   childCount: number;
 };
+
 type Props = {
   hotel?: hotelType;
   onSave: (hotelFormData: FormData) => void;
@@ -36,12 +37,13 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
 
   useEffect(() => {
     reset(hotel);
-  }, [hotel, reset]); // when reset will populate the new data
-  const OnSubmit = handleSubmit((data: HotelFormData) => {
+  }, [hotel, reset]);
+
+  const onSubmit = handleSubmit((data: HotelFormData) => {
     const formData = new FormData();
 
     if (hotel) {
-      formData.append("hotelId", hotel._id); // we need this id in the request of updating
+      formData.append("hotelId", hotel._id);
     }
     formData.append("name", data.name);
     formData.append("city", data.city);
@@ -57,7 +59,6 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
       formData.append(`facilities[${index}]`, facility);
     });
 
-    // for updating hotel
     if (data.imageUrls) {
       data.imageUrls.forEach((imgUrl, index) => {
         formData.append(`imageUrls[${index}]`, imgUrl);
@@ -69,7 +70,6 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
       });
     }
 
-    // for creating new hotel
     Array.from(data.imageFiles).forEach((imageFile) => {
       formData.append(`imageFiles`, imageFile);
     });
@@ -79,23 +79,28 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
 
     onSave(formData);
   });
+
   return (
     <FormProvider {...formMethods}>
-      <form className="flex flex-col gap-10" onSubmit={OnSubmit}>
+      <form
+        className="flex flex-col gap-10 p-6 bg-white rounded-lg shadow-md"
+        onSubmit={onSubmit}
+      >
         <DetailsSection />
         <TypeSection />
         <FacilitiesSection />
         <GuestsSection />
         <ImagesSection />
         <VideoSection />
-        <span className="flex justify-end ">
+        <div className="flex justify-end">
           <button
             type="submit"
-            className="border rounded bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
+            className="border rounded bg-blue-600 text-white py-2 px-4 font-bold hover:bg-blue-500 text-xl"
+            disabled={isLoading}
           >
             {isLoading ? "Saving..." : "Save"}
           </button>
-        </span>
+        </div>
       </form>
     </FormProvider>
   );

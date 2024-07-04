@@ -272,8 +272,6 @@ export const fetchHotel_Admin = async (hotelId: string): Promise<hotelType> => {
   const response = await fetch(`${API_BASE_URL}/api/admin/hotels/${hotelId}`, {
     credentials: "include",
   });
-  console.log(response);
-
   if (!response.ok) {
     throw new Error("Error fetching hotel for admin");
   }

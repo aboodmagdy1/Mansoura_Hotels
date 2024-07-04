@@ -10,15 +10,15 @@ const HotelCard_Admin = ({ hotel }: Props) => {
   return (
     <Link
       to={`/admin/hotels/${hotel._id}`}
-      className="relative cursor-pointer overflow-hidden rounded-md"
+      className="relative cursor-pointer overflow-hidden rounded-md shadow-lg transition-transform transform hover:scale-105"
     >
       <div className="absolute bottom-0 p-4 bg-black bg-opacity-50 w-full rounded-md">
-        <span className="text-white font-bold tracking-tight text-2xl">
+        <span className="text-white font-bold tracking-tight text-2xl block">
           {hotel.name}
         </span>
-        <span className="flex">
-          {Array.from({ length: hotel.starRating }).map(() => (
-            <AiFillStar className="fill-yellow-400" />
+        <span className="flex items-center mt-1">
+          {Array.from({ length: hotel.starRating }).map((_, index) => (
+            <AiFillStar key={index} className="fill-yellow-400" />
           ))}
         </span>
       </div>
@@ -26,7 +26,7 @@ const HotelCard_Admin = ({ hotel }: Props) => {
         <img
           alt={hotel.name}
           src={hotel.imageUrls[0]}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center rounded-md"
         />
       </div>
     </Link>

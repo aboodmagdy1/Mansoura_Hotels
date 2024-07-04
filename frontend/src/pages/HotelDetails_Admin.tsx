@@ -56,34 +56,34 @@ const HotelDetails_Admin = () => {
           </div>
 
           {/* Tabs for Sections */}
-          <Tabs variant="soft-rounded" colorScheme="blue">
+          <Tabs variant="soft-rounded" colorScheme="green">
             <TabList className="bg-white p-2 rounded-md shadow-sm flex justify-center space-x-4">
               <Tab
                 className="text-lg font-semibold text-gray-600 transition rounded-md px-4 py-2"
-                _selected={{ bg: "blue.500", color: "black" }}
+                _selected={{ bg: "blue", color: "white" }}
               >
                 Overview
               </Tab>
               <Tab
                 className="text-lg font-semibold text-gray-600 transition rounded-md px-4 py-2"
-                _selected={{ bg: "blue.500", color: "black" }}
+                _selected={{ bg: "blue", color: "white" }}
               >
                 Media
               </Tab>
               <Tab
                 className="text-lg font-semibold text-gray-600 transition rounded-md px-4 py-2"
-                _selected={{ bg: "blue.500", color: "black" }}
+                _selected={{ bg: "blue", color: "white" }}
               >
                 Facilities
               </Tab>
               <Tab
                 className="text-lg font-semibold text-gray-600 transition rounded-md px-4 py-2"
-                _selected={{ bg: "blue.500", color: "black" }}
+                _selected={{ bg: "blue", color: "white" }}
               >
                 Description
               </Tab>
             </TabList>
-
+            <div className="mb-5"></div>
             <TabPanels>
               <TabPanel>
                 <div className="space-y-4">

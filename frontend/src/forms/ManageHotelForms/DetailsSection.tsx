@@ -6,14 +6,15 @@ const DetailsSection = () => {
     register,
     formState: { errors },
   } = useFormContext<HotelFormData>();
+
   return (
-    <div className="flex flex-col  gap-5">
-      <h2 className="text-3xl font-bold mb-3">Add Hotel</h2>
-      <label className="text-gray-700 text-sm font-bold flex-1">
+    <div className="flex flex-col gap-5">
+      <h2 className="text-3xl font-bold mb-3">Hotel Details</h2>
+      <label className="text-gray-700 text-sm font-bold">
         Name
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
+          className="border rounded w-full py-2 px-3 font-normal"
           {...register("name", { required: "This field is required" })}
         />
         {errors.name && (
@@ -25,7 +26,7 @@ const DetailsSection = () => {
           City
           <input
             type="text"
-            className="border rounded w-full py-1 px-2 font-normal"
+            className="border rounded w-full py-2 px-3 font-normal"
             {...register("city", { required: "This field is required" })}
           />
           {errors.city && (
@@ -36,7 +37,7 @@ const DetailsSection = () => {
           Country
           <input
             type="text"
-            className="border rounded w-full py-1 px-2 font-normal"
+            className="border rounded w-full py-2 px-3 font-normal"
             {...register("country", { required: "This field is required" })}
           />
           {errors.country && (
@@ -44,11 +45,11 @@ const DetailsSection = () => {
           )}
         </label>
       </div>
-      <label className="text-gray-700 text-sm font-bold flex-1">
+      <label className="text-gray-700 text-sm font-bold">
         Description
         <textarea
-          rows={10}
-          className="border rounded w-full py-1 px-2 font-normal"
+          rows={5}
+          className="border rounded w-full py-2 px-3 font-normal"
           {...register("description", {
             required: "This field is required",
           })}
@@ -57,12 +58,12 @@ const DetailsSection = () => {
           <span className="text-red-500">{errors.description.message}</span>
         )}
       </label>
-      <label className="text-gray-700 text-sm font-bold max-w-[50%]">
+      <label className="text-gray-700 text-sm font-bold">
         Price Per Night
         <input
           type="number"
           min={1}
-          className="border rounded w-full py-1 px-2 font-normal"
+          className="border rounded w-full py-2 px-3 font-normal"
           {...register("pricePerNight", {
             required: "This field is required",
           })}
@@ -71,19 +72,18 @@ const DetailsSection = () => {
           <span className="text-red-500">{errors.pricePerNight.message}</span>
         )}
       </label>
-
-      <label className="text-gray-700 text-sm font-bold max-w-[50%]">
-        Start Ratings
+      <label className="text-gray-700 text-sm font-bold">
+        Star Rating
         <select
-          {...register("starRating", { required: "this Field is required" })}
-          className="border rounded w-full p-2 text-gray-700 font-normal "
+          {...register("starRating", { required: "This field is required" })}
+          className="border rounded w-full p-2 text-gray-700 font-normal"
         >
-          <option value="" className="text-sm font-bold">
-            Select as Rating
-          </option>
-          {[1, 2, 3, 4, 5].map((num) => {
-            return <option value={num}>{num}</option>;
-          })}
+          <option value="">Select a Rating</option>
+          {[1, 2, 3, 4, 5].map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
         </select>
         {errors.starRating && (
           <span className="text-red-500">{errors.starRating.message}</span>
