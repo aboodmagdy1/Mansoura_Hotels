@@ -7,9 +7,6 @@ import { useState } from "react";
 import Loader from "../components/Loader";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"; // Using Chakra UI for tabs
 import Tooltip from "@mui/material/Tooltip"; // Using Material UI for tooltips
-import { BiPlanet } from "react-icons/bi";
-import { SiPackt } from "react-icons/si";
-import { LiaFedex } from "react-icons/lia";
 import { CgGym } from "react-icons/cg";
 
 const HotelDetails_Admin = () => {
