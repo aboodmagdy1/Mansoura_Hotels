@@ -2,11 +2,15 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { AiFillStar } from "react-icons/ai";
-import { FaWifi, FaSwimmingPool, FaParking } from "react-icons/fa"; // Example icons
+import { FaWifi, FaSwimmingPool, FaParking, FaPlane } from "react-icons/fa"; // Example icons
 import { useState } from "react";
 import Loader from "../components/Loader";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"; // Using Chakra UI for tabs
 import Tooltip from "@mui/material/Tooltip"; // Using Material UI for tooltips
+import { BiPlanet } from "react-icons/bi";
+import { SiPackt } from "react-icons/si";
+import { LiaFedex } from "react-icons/lia";
+import { CgGym } from "react-icons/cg";
 
 const HotelDetails_Admin = () => {
   const { hotelId } = useParams();
@@ -38,19 +42,28 @@ const HotelDetails_Admin = () => {
           <div className="flex justify-between items-center bg-white p-4 rounded-md shadow-md">
             <div>
               <h1 className="font-bold text-3xl">{hotel.name}</h1>
-              <div className="flex">
+              <div className="flex ">
                 {Array.from({ length: hotel.starRating }).map((_, index) => (
-                  <AiFillStar key={index} className="fill-yellow-400" />
+                  <AiFillStar
+                    key={index}
+                    className="fill-yellow-400"
+                    size="50"
+                  />
                 ))}
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-lg">
-                {hotel.city}, {hotel.country}
-              </p>
-              <p className="text-md">Price: ${hotel.pricePerNight}</p>
-              <p className="text-md">
-                Appreviation : {hotel.approved ? "approved" : "pending"}
+            <div className="text-right flex flex-col">
+              <p className="text-md font-bold ">
+                Status :{" "}
+                {hotel.approved ? (
+                  <span className="border border-slate-400 p-2 rounded-lg bg-green-200">
+                    Approved
+                  </span>
+                ) : (
+                  <span className="border border-slate-400 p-2 rounded-lg bg-red-200">
+                    Pending
+                  </span>
+                )}
               </p>
             </div>
           </div>
@@ -91,9 +104,11 @@ const HotelDetails_Admin = () => {
                     <strong>Cit:</strong> {hotel.city}
                   </p>
                   <p>
-                    <strong>CountrY:</strong> {hotel.country}
+                    <strong>Country:</strong> {hotel.country}
                   </p>
-                  <p>{/* <strong>Email:</strong> {hotel.email} */}</p>
+                  <p>
+                    <strong>Price Per Night:</strong> {hotel.pricePerNight} $
+                  </p>
                 </div>
               </TabPanel>
               <TabPanel>
@@ -133,6 +148,12 @@ const HotelDetails_Admin = () => {
                         )}
                         {facility.includes("Parking") && (
                           <FaParking className="mr-2" />
+                        )}
+                        {facility.includes("Airport") && (
+                          <FaPlane className="mr-2" />
+                        )}
+                        {facility.includes("Fitness") && (
+                          <CgGym className="mr-2" />
                         )}
                         {facility}
                       </div>

@@ -51,6 +51,14 @@ const Admin = () => {
           <div className="border-b-2 border-blue-200 mb-4"></div>
           <TabPanels>
             <TabPanel>
+              <div className="mb-5 ">
+                <span className="bg-blue-400 text-white p-2 border rounded-lg text-2xl font-semibold">
+                  Hint :
+                </span>
+                <span className="font-semibold text-1xl p-2 ">
+                  All Hotels IN the DB That Approved or Not{" "}
+                </span>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {hotels?.map((hotel) => (
                   <div
@@ -63,6 +71,14 @@ const Admin = () => {
               </div>
             </TabPanel>
             <TabPanel>
+              <div className="mb-5 ">
+                <span className="bg-blue-400 text-white p-2 border rounded-lg text-2xl font-semibold">
+                  Hint :
+                </span>
+                <span className="font-semibold text-1xl p-2 ">
+                  Reviewd Hotels That will be shown to the users
+                </span>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {approvedHotels?.map((hotel) => (
                   <div
@@ -75,6 +91,14 @@ const Admin = () => {
               </div>
             </TabPanel>
             <TabPanel>
+              <div className="mb-5 ">
+                <span className="bg-blue-400 text-white p-2 border rounded-lg text-2xl font-semibold">
+                  Hint :
+                </span>
+                <span className="font-semibold text-1xl p-2 ">
+                  Hotels Wait To Be Reviewd By Admin
+                </span>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {pendingHotels?.map((hotel) => (
                   <div
