@@ -18,6 +18,7 @@ type AppContext = {
   showMessage: (message: Message) => void; //مش محدد اي الأكشن بالظبط هحدده ف ال provider
   isLoggedIn: boolean;
   stripePromise: Promise<Stripe | null>;
+  role: string;
 };
 const AppContext = React.createContext<AppContext | undefined>(undefined);
 const stripePromise = loadStripe(STRIPE_PUP_KEY);
@@ -38,7 +39,7 @@ export const AppContextProvider = ({
     undefined
   );
   //
-  const { isError } = useQuery("validateToken", apiClient.validateToken, {
+  const { data, isError } = useQuery("validateToken", apiClient.validateToken, {
     retry: false,
   });
 
@@ -51,6 +52,7 @@ export const AppContextProvider = ({
         },
         isLoggedIn: !isError,
         stripePromise,
+        role: data?.role,
       }}
     >
       {alertMessage && (

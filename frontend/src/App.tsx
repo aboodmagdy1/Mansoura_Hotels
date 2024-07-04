@@ -11,17 +11,25 @@ import Detail from "./pages/Detail";
 import Booking from "./pages/Booking";
 import MyBookings from "./pages/MyBookings";
 import Home from "./pages/Home";
+import Admin from "./pages/Admin";
+import HotelDetails_Admin from "./pages/HotelDetails_Admin";
 
 const App = () => {
-  const { isLoggedIn } = useAppContext();
+  const { isLoggedIn, role } = useAppContext();
+
   return (
     <BrowserRouter>
       <Routes>
+        {/* ----------------------------------------Public Routes---------------------------------------- */}
         <Route
           path="/"
           element={
             <Layout>
-              <Home />
+              {isLoggedIn && role === "admin" ? (
+                <Navigate to="/admin" />
+              ) : (
+                <Home />
+              )}
             </Layout>
           }
         />
@@ -58,7 +66,7 @@ const App = () => {
             </Layout>
           }
         />
-
+        {/* ----------------------------------------Protected Routes---------------------------------------- */}
         {isLoggedIn && (
           <>
             <Route
@@ -101,9 +109,32 @@ const App = () => {
                 </Layout>
               }
             />
+            {/* ---------------------------------------- Admin Routes---------------------------------------- */}
+            {role === "admin" && (
+              <>
+                <Route
+                  path="/admin"
+                  element={
+                    <Layout>
+                      <Admin />
+                    </Layout>
+                  }
+                />
+
+                <Route
+                  path="/admin/hotels/:hotelId"
+                  element={
+                    <Layout>
+                      <HotelDetails_Admin />
+                    </Layout>
+                  }
+                />
+              </>
+            )}
           </>
         )}
 
+        {/* ----------------------------------------Fallback Routes---------------------------------------- */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

@@ -4,10 +4,12 @@ import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../contexts/AppContext";
 const SearchBar = () => {
   // have global states
   const search = useSearchContext();
   const navigate = useNavigate();
+  const { isLoggedIn, role } = useAppContext();
 
   //local states(enhance performance)
   const [destination, setDestination] = useState<string>(search.destination);
@@ -40,6 +42,10 @@ const SearchBar = () => {
   const maxDate = new Date();
 
   maxDate.setFullYear(maxDate.getFullYear() + 1);
+
+  if (isLoggedIn && role === "admin") {
+    return <></>;
+  }
   return (
     <form
       onSubmit={handleSubmit}

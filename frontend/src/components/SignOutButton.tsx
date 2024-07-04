@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const SignOutButton = () => {
   const queryClient = useQueryClient();
   const { showMessage } = useAppContext();
+  const navigate = useNavigate();
   const mutation = useMutation(apiClient.signOut, {
     onSuccess: async () => {
       await queryClient.invalidateQueries("validateToken"); //enfore the query with this name to run in the success
       showMessage({ message: "Logged Out successfuly", type: "SUCCESS" });
+      navigate("/");
     },
     onError: (error: Error) => {
       showMessage({ message: error.message, type: "ERROR" });

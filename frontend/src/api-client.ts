@@ -77,7 +77,7 @@ export const validateToken = async () => {
   return response.json();
 };
 
-//-------------------------------Admin dashboard--------------------------------------
+//------------------------------- dashboard--------------------------------------
 
 export const addMyHotel = async (hotelFormData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
@@ -269,9 +269,10 @@ export const fetchAllHotels_Admin = async (): Promise<hotelType[]> => {
 };
 // get specific hotel to review
 export const fetchHotel_Admin = async (hotelId: string): Promise<hotelType> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/hotels/:${hotelId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/admin/hotels/${hotelId}`, {
     credentials: "include",
   });
+  console.log(response);
 
   if (!response.ok) {
     throw new Error("Error fetching hotel for admin");
