@@ -48,9 +48,14 @@ export const loginController = async (req: Request, res: Response) => {
 //@route api/auth/validate-token
 //@desc validate  a user token
 //@access frontend
-export const verifyTokenController = (req: Request, res: Response) => {
+export const verifyTokenController = async (req: Request, res: Response) => {
   //after the validate middleware validate the token this is the response
-  res.status(200).send({ userId: req.userId });
+  const user = await User.findById(req.userId);
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  res.status(200).send({ userId: req.userId, role: user.role });
 };
 
 //@route api/auth/logout

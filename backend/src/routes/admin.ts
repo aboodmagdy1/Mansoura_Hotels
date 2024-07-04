@@ -5,8 +5,8 @@ import { allowedTo } from "../controllers/user";
 const router = express.Router();
 
 router.use(verifyToken, allowedTo("admin"));
-router.get("/", allHotels);
 router.get("/:hotelId", getHotel);
 router.put("/:hotelId", approveHotel);
+router.get("/", allHotels);
 
 export default router;
