@@ -50,7 +50,7 @@ export const getAllHotels = async (req: Request, res: Response) => {
   //1) check if logged in then extract user (by verify token middleware)
   //2) get hotels with this user id and send response
   try {
-    const hotels = await Hotel.find({ userId: req.userId, approved: true });
+    const hotels = await Hotel.find({ userId: req.userId });
     res.json(hotels);
   } catch (err) {
     console.log("Error: getting all hotels: ", err);

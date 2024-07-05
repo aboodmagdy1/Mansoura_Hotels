@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 
 const MyHotels = () => {
   const { showMessage } = useAppContext();
-  const { data: hotelData, isLoading } = useQuery(
+  const { data: hotelsData, isLoading } = useQuery(
     "fetchMyHotels",
     apiClient.fetchMyHotles,
     {
@@ -40,7 +40,7 @@ const MyHotels = () => {
           Add Hotel
         </Link>
       </div>
-      {!hotelData || hotelData?.length === 0 ? (
+      {!hotelsData || hotelsData?.length === 0 ? (
         <div className="flex justify-center">
           <span className="text-2xl font-bold text-red-500">
             You Have No Approved Hotels
@@ -48,12 +48,26 @@ const MyHotels = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8">
-          {hotelData.map((hotel) => (
+          {hotelsData.map((hotel) => (
             <div
               key={hotel._id}
               className="flex flex-col justify-between border border-slate-300 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow"
             >
               <h2 className="text-2xl font-bold mb-4">{hotel.name}</h2>
+              <div className="text-right flex flex-col">
+                <p className="text-md font-bold ">
+                  Status :{" "}
+                  {hotel.approved ? (
+                    <span className="border border-slate-400 p-2 rounded-lg bg-green-200">
+                      Approved
+                    </span>
+                  ) : (
+                    <span className="border border-slate-400 p-2 rounded-lg bg-red-200">
+                      Pending
+                    </span>
+                  )}
+                </p>
+              </div>
               <div className="whitespace-pre-line mb-4">
                 {hotel.description.slice(0, 400)} ......
               </div>
