@@ -46,24 +46,9 @@ test("should allow user to add hotel", async ({ page }) => {
   await expect(page.getByText("Hotell added successfully")).toBeVisible();
 });
 
-test("should display  hotels", async ({ page }) => {
-  await page.goto(`${UI_URL}/my-hotels`);
-  await expect(page.getByText("Test Hotel Name")).toBeVisible();
-  await expect(page.getByText("Test City,Test Country")).toBeVisible();
-  await expect(page.getByText("Budget")).toBeVisible();
-  await expect(page.getByText("100 per night")).toBeVisible();
-  await expect(page.getByText("2 adults,2 children")).toBeVisible();
-  await expect(page.getByText("3 Star Rating")).toBeVisible();
-
-  await expect(
-    page.getByRole("link", { name: "View Details" }).first()
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
-});
-
 test("should edit hotel ", async ({ page }) => {
   await page.goto(`${UI_URL}/my-hotels`);
-  await page.getByRole("link", { name: "View Details" }).click();
+  await page.getByRole("link", { name: "Edit" }).click();
   await page.waitForSelector('[name="name"]', { state: "attached" }); // waint untill it loaded in to the dom
   await expect(page.locator('[name="name"]')).toHaveValue("Test Hotel Name");
   await page.locator('[name="name"]').fill("Test Hotel Name Updated");
@@ -78,4 +63,17 @@ test("should edit hotel ", async ({ page }) => {
 
   // fill with the original one  to make it pass
   await page.locator('[name="name"]').fill("Test Hotel Name");
+});
+
+test("should display  hotels", async ({ page }) => {
+  await page.goto(`${UI_URL}/my-hotels`);
+  await expect(page.getByText("Test Hotel Name Updated")).toBeVisible();
+  await expect(page.getByText("Test City, Test Country")).toBeVisible();
+  await expect(page.getByText("Budget")).toBeVisible();
+  await expect(page.getByText("100 per night")).toBeVisible();
+  await expect(page.getByText("2 adults, 2 children")).toBeVisible();
+  await expect(page.getByText("3 Star Rating")).toBeVisible();
+
+  await expect(page.getByRole("link", { name: "Edit" }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
 });

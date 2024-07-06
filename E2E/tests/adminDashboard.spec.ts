@@ -43,18 +43,18 @@ test("Should approve hotel  ", async ({ page }) => {
   await page.getByRole("link", { name: "Test Hotel Name Updated" }).click();
   await expect(page.getByText("Test Hotel Name Updated")).toBeVisible();
   await page.getByText("Settings").click();
-  await expect(page.getByRole("button", { name: "Approve" })).toBeVisible();
-  await page.getByRole("button", { name: "Approve" }).click();
-  await expect(page.getByText("Approved")).toBeVisible();
   await expect(page.getByRole("button", { name: "Pind" })).toBeVisible();
   await page.getByRole("button", { name: "Pind" }).click();
+  await expect(page.getByText("Approved")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Approve" })).toBeVisible();
+  await page.getByRole("button", { name: "Approve" }).click();
   await expect(page.getByText("Pending")).toBeVisible();
 });
 
-test.beforeEach(async ({ page }) => {
+test("Should delete  hotel  ", async ({ page }) => {
+  // we must create a hotel before we can delete it
   await page.goto(`${UI_URL}/add-hotel`);
-
-  await page.locator('[name="name"]').fill("e2e testing");
+  await page.locator('[name="name"]').fill(`e2e testing `);
   await page.locator('[name="city"]').fill("City");
   await page.locator('[name="country"]').fill("Country");
   await page
@@ -78,15 +78,12 @@ test.beforeEach(async ({ page }) => {
 
   await page.getByRole("button", { name: "Save" }).click();
   await expect(page.getByText("Hotell added successfully")).toBeVisible();
-});
-// we must create a hotel before we can delete it
-test("Should delete  hotel  ", async ({ page }) => {
   await page.goto(UI_URL);
   await expect(
     page.getByRole("link", { name: "Admin Dashboard View" })
   ).toBeVisible();
   await expect(page.getByText("DB Hotels")).toBeVisible();
-  await expect(page.getByRole("link", { name: "e2e testing" })).toBeVisible();
+  await expect(page.getByRole("link", { name: `e2e testing` })).toBeVisible();
   await page.getByRole("link", { name: "e2e testing" }).click();
   await expect(page.getByText("e2e testing")).toBeVisible();
   await page.getByText("Settings").click();
