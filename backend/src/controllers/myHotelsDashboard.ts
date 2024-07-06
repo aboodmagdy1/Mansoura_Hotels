@@ -17,9 +17,6 @@ export const addHotel = async (req: Request, res: Response) => {
     };
     const imageFiles = mediaFiles["imageFiles"] || [];
     const videoFiles = mediaFiles["videoFiles"] || [];
-
-    console.log(imageFiles, videoFiles);
-
     const newHotel: hotelType = req.body;
     //2) upload images to cloudinary
     //single upload for each image and video
