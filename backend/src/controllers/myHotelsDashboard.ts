@@ -36,7 +36,7 @@ export const addHotel = async (req: Request, res: Response) => {
     //4) save documen to db
     const hotel = await Hotel.create(newHotel);
     //5) send response
-    return res.status(201);
+    return res.status(201).json(hotel);
   } catch (err) {
     console.log("Error:creating hotel : ", err);
     res.status(500).json({ message: "Something went wrong" });
