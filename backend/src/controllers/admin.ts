@@ -45,9 +45,29 @@ export const approveHotel = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Hotel not found" });
     }
 
-    // TODO: add if not approved, send notification to hotel owner by mail
-
     res.status(200).json(hotel);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error: Something went wrong" });
+  }
+};
+
+// @route Delete api/admin/hotels/:hotelId
+// @desc delete hotel and send main to owner
+// @access admin
+export const deleteHotel = async (req: Request, res: Response) => {
+  const userId = req.body.userId;
+
+  try {
+    const hotel = await Hotel.findOneAndDelete({
+      _id: req.params.hotelId,
+      userId,
+    });
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+    // send email to owner
+    res.status(200);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error: Something went wrong" });
