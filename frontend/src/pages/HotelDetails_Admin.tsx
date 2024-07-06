@@ -1,5 +1,5 @@
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { AiFillStar } from "react-icons/ai";
 import { FaWifi, FaSwimmingPool, FaParking, FaPlane } from "react-icons/fa"; // Example icons
@@ -8,9 +8,13 @@ import Loader from "../components/Loader";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"; // Using Chakra UI for tabs
 import Tooltip from "@mui/material/Tooltip"; // Using Material UI for tooltips
 import { CgGym } from "react-icons/cg";
+import { useAppContext } from "../contexts/AppContext";
 
 const HotelDetails_Admin = () => {
-  const { hotelId } = useParams();
+  const { showMessage } = useAppContext();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { hotelId } = useParams<{ hotelId: string }>();
   const { data: hotel, isLoading } = useQuery(
     "fetchHotel_Admin",
     () => apiClient.fetchHotel_Admin(hotelId as string),
@@ -18,6 +22,29 @@ const HotelDetails_Admin = () => {
   );
 
   const [expandDescription, setExpandDescription] = useState(false);
+
+  const ApproveMutation = useMutation(
+    (approved: boolean) => apiClient.approveHotel(hotelId as string, approved),
+    {
+      onSuccess: () => {
+        showMessage({
+          message: "Hotel Approviation Successfully",
+          type: "SUCCESS",
+        });
+        queryClient.invalidateQueries("fetchHotel_Admin"); //refetch hotel and update status
+      },
+    }
+  );
+  const deleteMutation = useMutation(
+    () => apiClient.deleteHotel(hotelId as string, hotel?.userId as string),
+    {
+      onSuccess: () => {
+        showMessage({ message: "Hotel Deleted Successfully", type: "SUCCESS" });
+        queryClient.invalidateQueries("fetchHotel_Admin"); //refetch hotel and update status
+        navigate("/admin/hotels");
+      },
+    }
+  );
 
   if (isLoading) {
     return (
@@ -31,7 +58,7 @@ const HotelDetails_Admin = () => {
     <>
       {!hotel ? (
         <span className="flex justify-center text-red-500 text-2xl font-bold">
-          Hotel Not Found
+          Hotel Not Found Or Deleted
         </span>
       ) : (
         <div className="space-y-6 p-6 bg-gray-100 rounded-lg shadow-lg">
@@ -39,15 +66,7 @@ const HotelDetails_Admin = () => {
           <div className="flex justify-between items-center bg-white p-4 rounded-md shadow-md">
             <div>
               <h1 className="font-bold text-3xl">{hotel.name}</h1>
-              <div className="flex ">
-                {Array.from({ length: hotel.starRating }).map((_, index) => (
-                  <AiFillStar
-                    key={index}
-                    className="fill-yellow-400"
-                    size="50"
-                  />
-                ))}
-              </div>
+              <strong>OwnerID :</strong> {hotel.userId}
             </div>
             <div className="text-right flex flex-col">
               <p className="text-md font-bold ">
@@ -92,6 +111,12 @@ const HotelDetails_Admin = () => {
               >
                 Description
               </Tab>
+              <Tab
+                className="text-lg font-semibold text-gray-600 transition rounded-md px-4 py-2"
+                _selected={{ bg: "blue", color: "white" }}
+              >
+                Settings
+              </Tab>
             </TabList>
             <div className="mb-5"></div>
             <TabPanels>
@@ -106,6 +131,18 @@ const HotelDetails_Admin = () => {
                   <p>
                     <strong>Price Per Night:</strong> {hotel.pricePerNight} $
                   </p>
+                  <div className="flex  ">
+                    <strong className="p-1">Rating : </strong>
+                    {Array.from({ length: hotel.starRating }).map(
+                      (_, index) => (
+                        <AiFillStar
+                          key={index}
+                          className="fill-yellow-400"
+                          size="50"
+                        />
+                      )
+                    )}
+                  </div>
                 </div>
               </TabPanel>
               <TabPanel>
@@ -169,6 +206,23 @@ const HotelDetails_Admin = () => {
                     <span className="text-xl font-semibold text-blue-500">
                       {expandDescription ? "show less" : "show more"}
                     </span>
+                  </button>
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className=" flex justify-around  ">
+                  <button
+                    onClick={() => ApproveMutation.mutate(!hotel.approved)}
+                    className="px-4 py-2 bg-green-500 text-white rounded-md"
+                  >
+                    {hotel.approved ? "Pind" : "Approve"}
+                  </button>
+
+                  <button
+                    onClick={() => deleteMutation.mutate()}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  >
+                    Delete
                   </button>
                 </div>
               </TabPanel>

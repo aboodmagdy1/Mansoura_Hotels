@@ -55,7 +55,7 @@ const MyHotels = () => {
             >
               <h2 className="text-2xl font-bold mb-4">{hotel.name}</h2>
               <div className="text-right flex flex-col">
-                <p className="text-md font-bold ">
+                <p className="text-md font-bold mb-3 ">
                   Status :{" "}
                   {hotel.approved ? (
                     <span className="border border-slate-400 p-2 rounded-lg bg-green-200">

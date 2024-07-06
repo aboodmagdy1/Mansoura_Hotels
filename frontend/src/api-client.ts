@@ -277,7 +277,7 @@ export const fetchHotel_Admin = async (hotelId: string): Promise<hotelType> => {
   }
   return response.json();
 };
-// approve hotel
+// @desc send status of hotel appreviation to approve or not
 export const approveHotel = async (hotelId: string, approved: boolean) => {
   const response = await fetch(`${API_BASE_URL}/api/admin/hotels/${hotelId}`, {
     method: "PUT",
@@ -290,6 +290,23 @@ export const approveHotel = async (hotelId: string, approved: boolean) => {
 
   if (!response.ok) {
     throw new Error("Error approving hotel");
+  }
+  return response.json();
+};
+
+// @desc delete this hotel from DB and send owner id to send email
+export const deleteHotel = async (hotelId: string, userId: string) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/hotels/${hotelId}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error deleteing  hotel");
   }
   return response.json();
 };

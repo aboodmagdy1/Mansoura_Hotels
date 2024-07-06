@@ -12,7 +12,7 @@ const Header = () => {
         <span>
           {isLoggedIn && role == "admin" ? (
             <span className="text-white text-2xl border border-white-500 rounded-lg p-3 font-bold">
-              Admin Dashboard View
+              <Link to="/admin">Admin Dashboard View</Link>
             </span>
           ) : (
             ""
