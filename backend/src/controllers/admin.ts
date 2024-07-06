@@ -67,7 +67,7 @@ export const deleteHotel = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Hotel not found" });
     }
     // send email to owner
-    res.status(200);
+    res.status(200).json(hotel);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error: Something went wrong" });
