@@ -71,11 +71,12 @@ const HotelDetails_Admin = () => {
             <div className="text-right flex flex-col">
               <p className="text-md font-bold ">
                 Status :{" "}
-                {hotel.approved ? (
+                {hotel.approved && (
                   <span className="border border-slate-400 p-2 rounded-lg bg-green-200">
                     Approved
                   </span>
-                ) : (
+                )}
+                {!hotel.approved && (
                   <span className="border border-slate-400 p-2 rounded-lg bg-red-200">
                     Pending
                   </span>

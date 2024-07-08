@@ -3,3 +3,7 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+
+# test passwords is  for user : admin@gmail.com  pass : adminPass  
+# test passwords is  for admin : adminTest@gmail.com pass : testpass
