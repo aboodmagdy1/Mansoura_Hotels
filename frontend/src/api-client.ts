@@ -27,6 +27,20 @@ export const register = async (formData: RegisterFormData) => {
   }
 };
 
+export const verifyEmail = async (code: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/users/verify-email?code=${code}`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error Verify Email , try again ");
+  }
+  return response.json();
+};
+
 export const signIn = async (formData: SignInFormData) => {
   const response = await fetch(`${API_BASE_URL}/api/auth/sign-in`, {
     method: "POST",
