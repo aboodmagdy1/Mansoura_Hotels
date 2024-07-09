@@ -24,6 +24,12 @@ Booking.com Clone for Mansoura Hotels Build with Mern Stack
 - Booking and Pay with Stripe
 - E2E Testing with PlayWright
 
+## TODO Features :
+
+- Mail service For admin
+- payment plans for hotel owners
+- notification service for admin and owner
+
 ## Usage
 
 important Configration for environment :
