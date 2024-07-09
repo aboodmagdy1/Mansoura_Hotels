@@ -55,5 +55,6 @@ app.get("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(3000, () => {
+  console.log("Mode + ", process.env.NODE_ENV);
   console.log(`Server is running on port 3000`);
 });
