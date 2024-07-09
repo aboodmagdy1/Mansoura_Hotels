@@ -34,6 +34,8 @@ export type userType = {
   firstName: string;
   lastName: string;
   role: string;
+  veifyEmailToken: string;
+  verified: boolean;
 };
 
 export type PaymentIntentResponse = {
