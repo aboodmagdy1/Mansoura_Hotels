@@ -12,6 +12,7 @@ export const sendMail = async (options: Options) => {
     //1) transporter
     const transporter = await mailer.createTransport({
       service: "gmail",
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,

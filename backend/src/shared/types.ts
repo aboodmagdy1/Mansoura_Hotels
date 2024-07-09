@@ -34,7 +34,7 @@ export type userType = {
   firstName: string;
   lastName: string;
   role: string;
-  veifyEmailToken: string;
+  verificationCode: string;
   verified: boolean;
 };
 
