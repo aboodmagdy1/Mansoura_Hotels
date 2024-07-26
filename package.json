@@ -5,8 +5,11 @@
   "main": "./backend/dist/index.js",
   "scripts": {
     "start": "cd backend && npm start",
-    "build": "cd frontend && npm install && npm run build && cd ../backend && npm run build "
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm run build"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "21.7.1"
+  }
 }
