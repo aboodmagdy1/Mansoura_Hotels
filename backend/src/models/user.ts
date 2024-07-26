@@ -2,12 +2,40 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import { userType } from "../shared/types";
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin", "owner"],
+      default: "user",
+    },
+    verificationCode: {
+      type: String,
+      default: "",
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
+<<<<<<< HEAD
   password: {
     type: String,
     required: true,
@@ -30,6 +58,12 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
 });
+=======
+  {
+    timestamps: true,
+  }
+);
+>>>>>>> 1a1daf55bce591d0ae87811ab095c8d63810fb12
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

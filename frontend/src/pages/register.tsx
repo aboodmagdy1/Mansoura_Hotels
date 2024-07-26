@@ -23,7 +23,10 @@ const RegisterForm = () => {
 
   const mutation = useMutation(apiClient.register, {
     onSuccess: async () => {
-      showMessage({ message: "Registeration successful", type: "SUCCESS" });
+      showMessage({
+        message: "Please, check your mail ",
+        type: "SUCCESS",
+      });
       await queryClient.invalidateQueries("validateToken");
       navigate("/");
     },

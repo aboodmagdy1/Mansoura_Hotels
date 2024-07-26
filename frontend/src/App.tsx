@@ -13,7 +13,6 @@ import MyBookings from "./pages/MyBookings";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import HotelDetails_Admin from "./pages/HotelDetails_Admin";
-
 const App = () => {
   const { isLoggedIn, role } = useAppContext();
 

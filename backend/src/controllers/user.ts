@@ -1,6 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 import User from "./../models/user";
 import jwt, { Secret } from "jsonwebtoken";
+import { sendMail } from "../utils/sendMial";
+import crypto from "crypto";
 //@route api/users/register
 //@desc Register a user
 //@access Public
@@ -19,25 +21,61 @@ export const registerController = async (
 
     //4) create new user (the password will bcrypted before the save process)
     user = new User(req.body);
+
+    // 5)verificaiton token
+    const verificationCode = crypto.randomBytes(20).toString("hex");
+    user.verificationCode = verificationCode;
+    user.verified = false;
     await user.save();
-
-    //5) create token
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET as Secret,
-      {
-        expiresIn: "1d",
-      }
-    );
-    //6) send token in cookie (so the browser will store it in local cookie storage and send it in every request to the server)
-    res.cookie("auth_token", token, {
-      httpOnly: true, //cookie can't be accessed via client-side scripts
-      secure: process.env.NODE_ENV === "production", // send by https only in production
-      maxAge: 86400000, // the same as token 1d but in milliseconds
-    });
-
-    return res.status(200).send({ message: "User Registerd OK" });
+    //6) create verification link
+    const verificationLink = `${process.env.FRONTEND_URL}/verify-email?code=${verificationCode}`;
+    //7) send email to user
+    let message = `Here is your verification link : ${verificationLink}`;
+    try {
+      await sendMail({
+        from: `MansourHotels <${process.env.EMAIL_USER}>`,
+        to: user.email,
+        subject: "Email Verification",
+        text: message,
+      });
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ message: "Something went wrong with sending mails" });
+    }
+    return res
+      .status(200)
+      .send({ message: "User registered. Verification email sent" });
   } catch (error) {
+    res.status(500).json({ message: "Server Error : Something went wrong" });
+  }
+};
+
+//@route api/users/verify-email
+//@desc verify emailf for user registration
+//@access Public
+export const verifyEmail = async (req: Request, res: Response) => {
+  try {
+    const { code } = req.query;
+    if (!code) {
+      return res.status(400).json({ messsage: "Invalid or missing code" });
+    }
+    //1) ck if user  and if usr exist verify him and creat token for user
+    const user = await User.findOne({ verificationCode: code });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ messsage: "Invalid or missing verification code" });
+    }
+    user.verified = true;
+    user.verificationCode = "";
+    await user.save();
+    return res
+      .status(200)
+      .json({ message: "Email verified successfully. You can now log in." });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Server Error : Something went wrong" });
   }
 };
