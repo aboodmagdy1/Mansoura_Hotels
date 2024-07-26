@@ -1,5 +1,7 @@
 import Hotel from "../models/hotel";
 import { Request, Response } from "express";
+import User from "../models/user";
+import { sendMail } from "../utils/sendMails";
 
 // @route Get  api/admin/hotels
 // @desc get all hotels (then approve or not)
@@ -35,7 +37,7 @@ export const getHotel = async (req: Request, res: Response) => {
 // @access admin
 export const approveHotel = async (req: Request, res: Response) => {
   try {
-    const { approved } = req.body;
+    const { approved, message } = req.body;
     const hotel = await Hotel.findByIdAndUpdate(
       req.params.hotelId,
       { approved },
@@ -44,7 +46,18 @@ export const approveHotel = async (req: Request, res: Response) => {
     if (!hotel) {
       return res.status(404).json({ message: "Hotel not found" });
     }
-
+    //  find the owner of the hotel and get email address
+    const owner = await User.findById(hotel.userId);
+    if (owner) {
+      // send email to owner
+      await sendMail({
+        recipientMail: owner.email,
+        subject: "Hotel Approviation",
+        htmlContent: `<h1 style="color:red , ">Your Hotel has been ${
+          approved ? "Approved" : "Rejected"
+        }</h1> <p>${message}</p>`,
+      });
+    }
     res.status(200).json(hotel);
   } catch (error) {
     console.error(error);

@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export type hotelType = {
   _id: string;
   userId: string; // to know the user who creates this hotel
@@ -34,6 +36,7 @@ export type userType = {
   firstName: string;
   lastName: string;
   role: string;
+  phone: number;
 };
 
 export type PaymentIntentResponse = {
