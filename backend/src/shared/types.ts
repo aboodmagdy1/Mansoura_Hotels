@@ -36,12 +36,9 @@ export type userType = {
   firstName: string;
   lastName: string;
   role: string;
-<<<<<<< HEAD
   phone: number;
-=======
-  verificationCode: string;
   verified: boolean;
->>>>>>> 1a1daf55bce591d0ae87811ab095c8d63810fb12
+  verificationCode: string;
 };
 
 export type PaymentIntentResponse = {

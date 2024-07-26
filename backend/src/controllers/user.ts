@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import User from "./../models/user";
 import jwt, { Secret } from "jsonwebtoken";
-import { sendMail } from "../utils/sendMial";
+import { sendMail } from "../utils/sendMails";
 import crypto from "crypto";
 //@route api/users/register
 //@desc Register a user
@@ -30,13 +30,12 @@ export const registerController = async (
     //6) create verification link
     const verificationLink = `${process.env.FRONTEND_URL}/verify-email?code=${verificationCode}`;
     //7) send email to user
-    let message = `Here is your verification link : ${verificationLink}`;
+    let message = `<div> <h1> Verify You Mail </h1> <p> Here is your verification link : ${verificationLink}</p></div>`;
     try {
       await sendMail({
-        from: `MansourHotels <${process.env.EMAIL_USER}>`,
-        to: user.email,
-        subject: "Email Verification",
-        text: message,
+        recipientMail: user.email,
+        subject: "Email verification",
+        htmlContent: message,
       });
     } catch (err) {
       console.error(err);

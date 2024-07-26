@@ -50,5 +50,6 @@ export const sendMail = async (params: EmailParams) => {
     });
   } catch (error) {
     console.error(error);
+    throw new Error("failed to send mail");
   }
 };

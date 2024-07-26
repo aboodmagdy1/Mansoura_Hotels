@@ -35,35 +35,11 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-<<<<<<< HEAD
-  password: {
-    type: String,
-    required: true,
-  },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: Number,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ["admin", "owner", "user"],
-    default: "user",
-  },
-});
-=======
+
   {
     timestamps: true,
   }
 );
->>>>>>> 1a1daf55bce591d0ae87811ab095c8d63810fb12
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
