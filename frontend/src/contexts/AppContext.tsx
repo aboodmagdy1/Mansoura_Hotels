@@ -5,7 +5,7 @@ import * as apiClient from "../api-client";
 // we make this here because we want to load the stripe once the app is load
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 
-const STRIPE_PUP_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY || "";
+const STRIPE_PUP_KEY = (import.meta.env.VITE_STRIPE_PUBLIC_KEY as string) || "";
 
 type Message = {
   message: string;
