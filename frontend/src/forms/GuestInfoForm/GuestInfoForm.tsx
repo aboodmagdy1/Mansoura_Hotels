@@ -78,7 +78,7 @@ const GustInfoForm = ({ hotelId, pricePerNight }: Props) => {
             <DatePicker
               required
               selected={checkIn}
-              onChange={(date) => setValue("checkIn", date as Date)}
+              onChange={(date: Date) => setValue("checkIn", date)}
               selectsStart
               startDate={checkIn}
               endDate={checkOut}
@@ -93,7 +93,7 @@ const GustInfoForm = ({ hotelId, pricePerNight }: Props) => {
             <DatePicker
               required
               selected={checkOut}
-              onChange={(date) => setValue("checkOut", date as Date)}
+              onChange={(date: Date) => setValue("checkOut", date)}
               selectsStart
               startDate={checkIn}
               endDate={checkOut}
