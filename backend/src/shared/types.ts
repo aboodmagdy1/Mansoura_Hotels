@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export type hotelType = {
   _id: string;
   userId: string; // to know the user who creates this hotel
