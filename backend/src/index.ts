@@ -54,6 +54,7 @@ app.get("*", (req: Request, res: Response, next: NextFunction) => {
   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
 
-app.listen(4000, () => {
-  console.log(`Server is running on port 4000`);
+app.listen(3000, () => {
+  console.log(`mode : ${process.env.NODE_ENV} , 
+    Server is running on port 3000`);
 });

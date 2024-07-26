@@ -13,6 +13,7 @@ import MyBookings from "./pages/MyBookings";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import HotelDetails_Admin from "./pages/HotelDetails_Admin";
+import VerifyEmail from "./pages/VerifyEmail";
 const App = () => {
   const { isLoggedIn, role } = useAppContext();
 
@@ -62,6 +63,14 @@ const App = () => {
           element={
             <Layout>
               <SignInForm />
+            </Layout>
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            <Layout>
+              <VerifyEmail />
             </Layout>
           }
         />
