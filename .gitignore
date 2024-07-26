@@ -1,7 +1,6 @@
 # env files 
 .env
 .env.e2e
-
 # Node modules
 node_modules/
 

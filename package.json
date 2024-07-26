@@ -1,0 +1,12 @@
+{
+  "name": "hotel_booking_app",
+  "version": "1.0.0",
+  "description": "- <a href=\"https://elmagd-hotels.onrender.com/\"> Live Demo</a>",
+  "main": "./backend/dist/index.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm run build "
+  },
+  "author": "",
+  "license": "ISC"
+}
