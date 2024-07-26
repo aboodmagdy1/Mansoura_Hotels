@@ -10,7 +10,7 @@ export const loginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     //1) check if user exit and check password
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, verified: true });
     if (!user) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }

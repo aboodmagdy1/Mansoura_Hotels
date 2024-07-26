@@ -16,7 +16,11 @@ export const registerController = async (
     //2) check if user exit before
     let user = await User.findOne({ email: req.body.email });
     if (user !== null) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({
+        message: user.verified
+          ? "User already exists"
+          : "check your mail to verify",
+      });
     }
 
     //4) create new user (the password will bcrypted before the save process)
@@ -30,7 +34,14 @@ export const registerController = async (
     //6) create verification link
     const verificationLink = `${process.env.FRONTEND_URL}/verify-email?code=${verificationCode}`;
     //7) send email to user
-    let message = `<div> <h1> Verify You Mail </h1> <p> Here is your verification link : ${verificationLink}</p></div>`;
+    const message = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+      <h1>Email Verification</h1>
+      <p>Thank you for registering. Please click the link below to verify your email address:</p>
+      <p><a href="${verificationLink}">Verify Your Email</a></p>
+      <p>If you did not request this verification, please ignore this email.</p>
+    </div>
+  `;
     try {
       await sendMail({
         recipientMail: user.email,
