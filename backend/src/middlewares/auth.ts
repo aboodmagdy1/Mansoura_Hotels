@@ -23,7 +23,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     //2) validate the token(will return payload)
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     //3) return payload in request
-    req.userId = (decoded as JwtPayload).userId; // TODO:extend Request type to add userId
+    req.userId = (decoded as JwtPayload).userId;
 
     next();
   } catch (error) {

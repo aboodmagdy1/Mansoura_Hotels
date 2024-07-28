@@ -49,13 +49,23 @@ export const approveHotel = async (req: Request, res: Response) => {
     //  find the owner of the hotel and get email address
     const owner = await User.findById(hotel.userId);
     if (owner) {
+      //TODO  :change the role form user to owner
       // send email to owner
+      const message = `After careful review ${hotel.name}, we decide to ${
+        approved
+          ? `allow yor hotel to be displayed`
+          : `To not allow your hotel to be displayed`
+      }  `;
       await sendMail({
         recipientMail: owner.email,
         subject: "Hotel Approviation",
-        htmlContent: `<h1 style="color:red , ">Your Hotel has been ${
-          approved ? "Approved" : "Rejected"
-        }</h1> <p>${message}</p>`,
+        htmlContent: `
+          <h1 style="color: #333; font-family: Arial, sans-serif;">Hotel Approval Status</h1>
+          <p style="font-size: 16px; line-height: 1.6;">
+            Dear ${owner.firstName + " " + owner.lastName},<br/><br/>
+            ${message}<br/><br/>
+          </p>
+        `,
       });
     }
     res.status(200).json(hotel);
