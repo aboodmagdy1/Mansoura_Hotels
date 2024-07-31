@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../api-client";
 import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
 const MyBookings = () => {
   const { data: hotels, isLoading } = useQuery(
     "fetchMyBookings",
@@ -17,7 +18,14 @@ const MyBookings = () => {
         </div>
       );
     } else {
-      return <span>No Bookings Found</span>;
+      return (
+        <span className="flex justify-center font-semibold ">
+          Let's book your next destination{"   "}
+          <Link className="text-blue-600 ml-2 " to={"/"}>
+            book
+          </Link>
+        </span>
+      );
     }
   }
   return (

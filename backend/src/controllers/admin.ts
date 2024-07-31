@@ -49,23 +49,50 @@ export const approveHotel = async (req: Request, res: Response) => {
     //  find the owner of the hotel and get email address
     const owner = await User.findById(hotel.userId);
     if (owner) {
-      //TODO  :change the role form user to owner
+      // change the role form user to owner
+      owner.role = "owner";
       // send email to owner
-      const message = `After careful review ${hotel.name}, we decide to ${
-        approved
-          ? `allow yor hotel to be displayed`
-          : `To not allow your hotel to be displayed`
-      }  `;
+      const message = `
+  After careful review of ${hotel.name} details, we have <br/><br/>
+  ${
+    approved
+      ? `<h3 style="color: #1E90FF;">Approved: Your hotel is approved to be displayed on our platform.</h3>`
+      : `<h3 style="color: #FF6347;">Rejected: Unfortunately, your hotel does not meet our criteria for listing.</h3> <br/><br/>We will send you detailed reasons for this decision shortly.`
+  }
+`;
+
       await sendMail({
         recipientMail: owner.email,
-        subject: "Hotel Approviation",
+        subject: "Hotel Approval Status",
         htmlContent: `
-          <h1 style="color: #333; font-family: Arial, sans-serif;">Hotel Approval Status</h1>
-          <p style="font-size: 16px; line-height: 1.6;">
-            Dear ${owner.firstName + " " + owner.lastName},<br/><br/>
-            ${message}<br/><br/>
-          </p>
-        `,
+    <html>
+    <head>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+        }
+        h1 {
+          color: #333;
+          font-size: 24px;
+        }
+        h3 {
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+        p {
+          font-size: 16px;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Hotel Approval Status</h1>
+      <p>Dear ${owner.firstName} ${owner.lastName},</p>
+      <p>${message}</p>
+    </body>
+    </html>
+  `,
       });
     }
     res.status(200).json(hotel);
@@ -89,7 +116,7 @@ export const deleteHotel = async (req: Request, res: Response) => {
     if (!hotel) {
       return res.status(404).json({ message: "Hotel not found" });
     }
-    // send email to owner
+    // before the deletion happen we cansel all the bookings of this hotel
     res.status(200).json(hotel);
   } catch (error) {
     console.error(error);

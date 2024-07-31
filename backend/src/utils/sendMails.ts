@@ -39,12 +39,13 @@ export const sendMail = async (params: EmailParams) => {
   const { recipientMail, subject, htmlContent } = params;
   const sentFrom =
     process.env.NODE_ENV === "production"
-      ? process.env.GMAIL_SENDER_NAME
-      : process.env.MAILTRAP_SENDER_NAME;
+      ? process.env.GMAIL_EMAIL_USER
+      : process.env.MAILTRAP_EMAIL;
   try {
     await transporter.sendMail({
       from: sentFrom,
       to: recipientMail,
+
       subject,
       html: htmlContent,
     });

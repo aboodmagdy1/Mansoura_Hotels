@@ -42,8 +42,8 @@ const MyHotels = () => {
       </div>
       {!hotelsData || hotelsData?.length === 0 ? (
         <div className="flex justify-center">
-          <span className="text-2xl font-bold text-red-500">
-            You Have No Approved Hotels
+          <span className="text-1xl font-bold text-black-500">
+            Let's Start by adding your first hotel
           </span>
         </div>
       ) : (

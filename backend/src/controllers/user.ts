@@ -62,7 +62,7 @@ export const registerController = async (
   }
 };
 
-//@route api/users/verify-email
+//@route api/users/verify-email?code=....
 //@desc verify emailf for user registration
 //@access Public
 export const verifyEmail = async (req: Request, res: Response) => {

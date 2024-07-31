@@ -1,7 +1,5 @@
 # MansourHotels.com
 
-- <a href="https://elmagd-hotels.onrender.com/"> Live Demo</a>
-
 ## Description
 
 Booking.com Clone for Mansoura Hotels Build with Mern Stack
