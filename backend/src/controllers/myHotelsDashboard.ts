@@ -3,6 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import Hotel from "../models/hotel";
 import { hotelType } from "../shared/types";
 import { Multer } from "multer";
+import { sendMail } from "../utils/sendMails";
 
 //@route  /api/my-hotels/
 //@method POST
@@ -112,6 +113,8 @@ export const updateHotel = async (req: Request, res: Response) => {
     hotel.videoUrls = [...updatedVideoUrls, ...(updatedHotel.videoUrls || [])];
 
     //just save the new data
+    hotel.approved = false; // to be reviewd
+    hotel.updateApprove = true;
     await hotel.save();
     res.status(201).json(hotel);
   } catch (err) {

@@ -16,6 +16,7 @@ export type hotelType = {
   lastUpdated: Date;
   bookings: BoookingType[];
   approved: boolean;
+  updateApprove: boolean;
 };
 
 export type HotelSearchResponse = {

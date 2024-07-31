@@ -63,7 +63,7 @@ const MyHotels = () => {
                     </span>
                   ) : (
                     <span className="border border-slate-400 p-2 rounded-lg bg-red-200">
-                      Pending
+                      {hotel.updateApprove ? "Pending updates" : " Pending"}
                     </span>
                   )}
                 </p>

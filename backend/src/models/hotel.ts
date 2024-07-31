@@ -100,7 +100,14 @@ const hotelSchema = new mongoose.Schema<hotelType>({
     required: true,
   },
   bookings: [bookingSchema],
+
+  // for creating approviation
   approved: {
+    type: Boolean,
+    default: false,
+  },
+  // for updating a approviation ()
+  updateApprove: {
     type: Boolean,
     default: false,
   },

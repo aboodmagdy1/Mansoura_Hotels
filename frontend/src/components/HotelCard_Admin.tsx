@@ -20,9 +20,13 @@ const HotelCard_Admin = ({ hotel }: Props) => {
           />
         </div>
 
-        <div className="p-4 bg-blue-400 w-full rounded-md">
+        <div className="p-4 bg-blue-300 w-full rounded-md flex justify-between">
           <span className="text-white font-bold tracking-tight text-2xl">
             {hotel.name}
+          </span>
+
+          <span className="text-white font-bold tracking-tight text-2xl">
+            Status: {hotel.updateApprove ? "updated" : "reviewd"}
           </span>
         </div>
       </div>

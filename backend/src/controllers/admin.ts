@@ -40,7 +40,7 @@ export const approveHotel = async (req: Request, res: Response) => {
     const { approved, message } = req.body;
     const hotel = await Hotel.findByIdAndUpdate(
       req.params.hotelId,
-      { approved },
+      { approved, updateApprove: false },
       { new: true }
     );
     if (!hotel) {
