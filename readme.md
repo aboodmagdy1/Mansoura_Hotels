@@ -16,7 +16,8 @@ Booking.com Clone for Mansoura Hotels Build with Mern Stack
 - Authintication And Authorization with JWT
 - Hotels Dashboard for hotel owners
 - Admin Dashboard for website admin
-- revision system (review owner hotels before make it available for users)
+- revision system (review hoteles after create and update )
+- Mail service For admin
 - Image , Video hosting with Cloudinary
 - Searching , Pagination , Filtering
 - Booking and Pay with Stripe
@@ -24,7 +25,6 @@ Booking.com Clone for Mansoura Hotels Build with Mern Stack
 
 ## TODO Features :
 
-- Mail service For admin
 - payment plans for hotel owners
 - notification service for admin and owner
 
