@@ -39,7 +39,7 @@ const VerifyEmail = () => {
   } else {
     return (
       <div className="flex flex-col justify-center items-center ">
-        <div className="text-green-500 text-2xl font-semibold mb-4">
+        <div className="text-green-600 text-2xl font-semibold mb-4">
           Email verified successfully
         </div>
         <button
